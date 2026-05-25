@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dylan Sullivan | Web Dev</title>
+    <link rel="icon" type="image/svg+xml" href="favicon (1).svg">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="nav-logo">DylanSullivan</span>
+        </div>
+        <div class="nav-menu">
+            <button class="menu-btn" onclick="toggleMenu(this)" aria-label="Menu">
+                <img src="menus.png" alt="Menu">
+            </button>
+            <div class="menu-dropdown">
+                <a href="#work" onclick="closeMenu()"><img src="briefcase.png" alt="" class="menu-icon">Work</a>
+                <a href="about.html"><img src="about.png" alt="" class="menu-icon">About</a>
+                <div class="menu-divider"></div>
+                <span class="menu-connect-label">Connect with me</span>
+                <div class="menu-socials">
+                    <a href="https://github.com/dylanh9971" target="_blank" rel="noopener noreferrer" onclick="closeMenu()">
+                        <img src="github.png" alt="GitHub">
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" onclick="closeMenu()">
+                        <img src="linkedin (1).png" alt="LinkedIn">
+                    </a>
+                    <a href="#" onclick="openWA(event)" target="_blank" rel="noopener noreferrer" onclick="closeMenu()">
+                        <img src="whatsapp.png" alt="WhatsApp">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="status-pill">
+            <span class="dot"></span> Available
+        </div>
+        <div class="hero-meta">
+            <span>Frontend Developer</span>
+        </div>
+        <p class="hero-bio">Focusing on the pixels and <span class="highlight">code</span><br>so you can focus on what you <span class="highlight">love.</span></p>
+        <button class="hero-cta" onclick="openModal()"><span>Get in touch</span></button>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <span class="stat-value">1</span>
+                <span class="stat-label">Project Shipped</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-value">6</span>
+                <span class="stat-label">Technologies</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-value">Frontend</span>
+                <span class="stat-label">Developer</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Selected Work -->
+    <section id="work" class="section">
+        <div class="section-head">
+            <span class="section-label">Selected Work</span>
+            <span class="section-num">(01)</span>
+        </div>
+        <div class="work-list">
+            <a href="https://duirtdara.com" class="work-item" onclick="openProject(event)">
+                <span class="work-num">01</span>
+                <div class="work-detail">
+                    <h3 class="work-title">Dúirt Dara <span class="work-subtitle">— A blog website for Dara Collins</span></h3>
+                    <div class="work-tags">
+                        <span>HTML</span><span>CSS</span><span>JavaScript</span>
+                    </div>
+                </div>
+                <span class="work-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- GitHub Activity -->
+    <section class="section github-section">
+        <div class="github-card">
+            <div class="github-card-header">
+                <div class="github-card-title">
+                    <img src="github.png" alt="" class="gh-icon">
+                    <span>GitHub Activity</span>
+                </div>
+                <a href="https://github.com/dylanh9971" target="_blank" rel="noopener noreferrer" class="gh-profile-link">@dylanh9971 ↗</a>
+            </div>
+            <div class="github-stats">
+                <div class="gh-stat">
+                    <span class="gh-stat-num" id="gh-repos">—</span>
+                    <span class="gh-stat-label">Repositories</span>
+                </div>
+                <div class="gh-stat">
+                    <span class="gh-stat-num" id="gh-followers">—</span>
+                    <span class="gh-stat-label">Followers</span>
+                </div>
+                <div class="gh-stat">
+                    <span class="gh-stat-num" id="gh-following">—</span>
+                    <span class="gh-stat-label">Following</span>
+                </div>
+                <div class="gh-stat">
+                    <span class="gh-stat-num" id="gh-gists">—</span>
+                    <span class="gh-stat-label">Public Gists</span>
+                </div>
+            </div>
+            <div class="github-chart-wrap">
+                <div id="gh-calendar"></div>
+                <div id="calTooltip" class="cal-tooltip"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Stack -->
+    <div class="stack-dark-wrap">
+        <div class="stack-dark-inner">
+            <div class="stack-dark-head">
+                <h2 class="stack-dark-title">My Stack</h2>
+                <p class="stack-dark-sub">The tools, languages, and technologies I leverage to transform concepts into powerful, seamless digital experiences.</p>
+            </div>
+            <div class="stack-accordions">
+                <div class="stack-accordion">
+                    <button class="stack-acc-btn" onclick="toggleStack(this)" aria-expanded="false">
+                        <div class="stack-acc-left">
+                            <span class="stack-acc-num">1</span>
+                            <span class="stack-acc-label">Development</span>
+                        </div>
+                        <svg class="stack-acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="stack-acc-body">
+                        <div class="stack-tech-list">
+                            <span class="stack-tech" style="--tech-color:#264de4">CSS</span>
+                            <span class="stack-tech" style="--tech-color:#e34c26">HTML</span>
+                            <span class="stack-tech" style="--tech-color:#f7df1e">JavaScript</span>
+                            <span class="stack-tech" style="--tech-color:#6e7681">GitHub</span>
+                            <span class="stack-tech" style="--tech-color:#3178c6">TypeScript</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stack-accordion">
+                    <button class="stack-acc-btn" onclick="toggleStack(this)" aria-expanded="false">
+                        <div class="stack-acc-left">
+                            <span class="stack-acc-num">2</span>
+                            <span class="stack-acc-label">Design</span>
+                        </div>
+                        <svg class="stack-acc-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="stack-acc-body">
+                        <div class="stack-tech-list">
+                            <span class="stack-tech" style="--tech-color:#a259ff">Figma</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Strip -->
+    <div class="contact-strip">
+        <div class="contact-inner">
+            <div class="contact-portrait">
+                <img src="dylan.png" alt="Dylan Sullivan">
+            </div>
+            <span class="contact-eyebrow">Open to work</span>
+            <h2 class="contact-heading">Have a project<br>in mind?</h2>
+            <p class="contact-sub">Available for freelance projects and new opportunities.<br>Let's build something worth talking about.</p>
+            <button class="email-copy-btn" onclick="copyEmail(this)">
+                <img src="copy (1).png" alt="Copy" class="email-copy-icon">
+                <span class="email-copy-text">dylan9971@hotmail.co.uk</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <span>© 2026 Dylan Sullivan</span>
+        <div class="socials">
+            <a href="#" class="social-icon" aria-label="LinkedIn">
+                <img src="linkedin (1).png" alt="LinkedIn">
+            </a>
+            <a href="https://github.com/dylanh9971" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                <img src="github.png" alt="GitHub">
+            </a>
+            <a href="#" onclick="openWA(event)" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp">
+                <img src="whatsapp.png" alt="WhatsApp">
+            </a>
+        </div>
+    </footer>
+
+    <!-- Project Overlay -->
+    <div class="project-overlay" id="projectOverlay">
+        <button class="project-close" onclick="closeProject()">✕</button>
+        <div class="project-panel">
+
+            <!-- Left: Slideshow -->
+            <div class="project-slides">
+                <div class="slide-track" id="slideTrack">
+                    <div class="slide-img"><img src="dd-1.png" alt="Dúirt Dara screenshot 1"></div>
+                    <div class="slide-img"><img src="dd-2.png" alt="Dúirt Dara screenshot 2"></div>
+                    <div class="slide-img"><img src="dd-3.png" alt="Dúirt Dara screenshot 3"></div>
+                </div>
+                <button class="slide-btn slide-prev" onclick="slideProject(-1)">&#8249;</button>
+                <button class="slide-btn slide-next" onclick="slideProject(1)">&#8250;</button>
+                <div class="slide-counter" id="slideCounter">1 / 3</div>
+                <div class="slide-thumbs">
+                    <img src="dd-1.png" class="slide-thumb active" onclick="goSlide(0)" alt="Slide 1">
+                    <img src="dd-2.png" class="slide-thumb" onclick="goSlide(1)" alt="Slide 2">
+                    <img src="dd-3.png" class="slide-thumb" onclick="goSlide(2)" alt="Slide 3">
+                </div>
+            </div>
+
+            <!-- Right: Info -->
+            <div class="project-info">
+                <div class="project-info-top">
+                    <div>
+                        <h2 class="project-title">Dúirt Dara</h2>
+                        <p class="project-desc">A blog website for Dara Collins</p>
+                    </div>
+                    <a href="https://duirtdara.com" target="_blank" rel="noopener noreferrer" class="project-visit">↗</a>
+                </div>
+
+                <div class="project-meta-list">
+                    <div class="project-meta-item">
+                        <span class="project-meta-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </span>
+                        <div>
+                            <p class="project-meta-label">Created at</p>
+                            <p class="project-meta-value">April 2026</p>
+                        </div>
+                    </div>
+                    <div class="project-meta-item">
+                        <span class="project-meta-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        </span>
+                        <div>
+                            <p class="project-meta-label">Category</p>
+                            <p class="project-meta-value">Web Development</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-divider"></div>
+
+                <div class="project-tags-section">
+                    <p class="project-tags-heading">Tags</p>
+                    <div class="project-tag-list">
+                        <span class="project-tag">HTML</span>
+                        <span class="project-tag">CSS</span>
+                        <span class="project-tag">JavaScript</span>
+                    </div>
+                </div>
+
+                <div class="project-divider"></div>
+
+                <div class="project-connect">
+                    <p class="project-tags-heading">Connect with me</p>
+                    <div class="project-socials">
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="project-social-icon" aria-label="LinkedIn">
+                            <img src="linkedin (1).png" alt="LinkedIn">
+                        </a>
+                        <a href="https://github.com/dylanh9971" target="_blank" rel="noopener noreferrer" class="project-social-icon" aria-label="GitHub">
+                            <img src="github.png" alt="GitHub">
+                        </a>
+                        <a href="#" onclick="openWA(event)" target="_blank" rel="noopener noreferrer" class="project-social-icon" aria-label="WhatsApp">
+                            <img src="whatsapp.png" alt="WhatsApp">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <h2 class="modal-title">Get in touch</h2>
+            <p class="modal-subtitle">Fill in the form and I'll get back to you.</p>
+            <div data-fs-success class="form-success">Message sent! I'll get back to you soon. ✓</div>
+            <div data-fs-error class="form-error"></div>
+
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="fname">Name</label>
+                    <input type="text" id="fname" name="name" placeholder="Your name" required data-fs-field>
+                    <span data-fs-error="name" class="field-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="femail">Email</label>
+                    <input type="email" id="femail" name="email" placeholder="your@email.com" required data-fs-field>
+                    <span data-fs-error="email" class="field-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="fmessage">Message</label>
+                    <textarea id="fmessage" name="message" placeholder="Tell me about your project..." rows="5" required data-fs-field></textarea>
+                    <span data-fs-error="message" class="field-error"></span>
+                </div>
+                <button type="submit" class="form-submit" data-fs-submit-btn>Send message</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 3;
+
+        function openProject(e) {
+            e.preventDefault();
+            document.getElementById('projectOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+            currentSlide = 0;
+            updateSlide();
+        }
+
+        function closeProject() {
+            document.getElementById('projectOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function slideProject(dir) {
+            currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+            updateSlide();
+        }
+
+        function goSlide(n) {
+            currentSlide = n;
+            updateSlide();
+        }
+
+        function updateSlide() {
+            document.getElementById('slideTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            document.querySelectorAll('.slide-thumb').forEach((t, i) => t.classList.toggle('active', i === currentSlide));
+        }
+
+        document.getElementById('projectOverlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeProject();
+        });
+
+
+        function openModal() {
+            document.getElementById('contactModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('contactModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('contactModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+
+        window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+        formspree('initForm', { formElement: '#contactForm', formId: 'mvzlrroe' });
+
+        function toggleBio(btn) {
+            const bio = btn.closest('.about-bio');
+            bio.classList.toggle('expanded');
+            btn.textContent = bio.classList.contains('expanded') ? 'Read less' : 'Read more';
+        }
+
+        async function fetchGitHubStats() {
+            try {
+                const res = await fetch('https://api.github.com/users/dylanh9971');
+                const d = await res.json();
+                document.getElementById('gh-repos').textContent     = d.public_repos ?? '—';
+                document.getElementById('gh-followers').textContent = d.followers     ?? '—';
+                document.getElementById('gh-following').textContent = d.following     ?? '—';
+                document.getElementById('gh-gists').textContent     = d.public_gists  ?? '—';
+            } catch(e) {}
+        }
+
+        async function fetchGitHubCalendar() {
+            try {
+                const res = await fetch('https://github-contributions-api.jogruber.de/v4/dylanh9971?y=last');
+                const { contributions } = await res.json();
+                renderCalendar(contributions);
+            } catch(e) {
+                document.getElementById('gh-calendar').innerHTML =
+                    '<p style="color:var(--text-muted);font-size:0.8rem;padding:1rem 0;">Could not load contribution data.</p>';
+            }
+        }
+
+        function renderCalendar(days) {
+            const el = document.getElementById('gh-calendar');
+            const levelColors = ['#e6e6e6', 'rgba(255,95,31,0.25)', 'rgba(255,95,31,0.5)', 'rgba(255,95,31,0.75)', '#FF5F1F'];
+            const dayLabels   = ['', 'Mon', '', 'Wed', '', 'Fri', ''];
+            const monthNames  = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+            // Group days into weeks (Sun-based)
+            const weeks = [];
+            let week = new Array(new Date(days[0].date).getDay()).fill(null);
+            days.forEach(day => {
+                week.push(day);
+                if (week.length === 7) { weeks.push(week); week = []; }
+            });
+            if (week.length) { while (week.length < 7) week.push(null); weeks.push(week); }
+
+            // Month label positions
+            let prevMonth = -1;
+            const monthLabels = weeks.map(week => {
+                const first = week.find(d => d);
+                if (!first) return '';
+                const m = new Date(first.date).getMonth();
+                if (m !== prevMonth) { prevMonth = m; return monthNames[m]; }
+                return '';
+            });
+
+            const cell = 11, gap = 3, labelW = 26, topH = 18;
+            const totalW = labelW + weeks.length * (cell + gap);
+            const totalH = topH + 7 * (cell + gap);
+
+            let svg = `<svg width="100%" viewBox="0 0 ${totalW} ${totalH}" xmlns="http://www.w3.org/2000/svg">`;
+
+            // Month labels
+            weeks.forEach((_, wi) => {
+                if (!monthLabels[wi]) return;
+                const x = labelW + wi * (cell + gap);
+                svg += `<text x="${x}" y="11" font-size="8" font-family="Plus Jakarta Sans,sans-serif" fill="#888">${monthLabels[wi]}</text>`;
+            });
+
+            // Day labels
+            dayLabels.forEach((label, di) => {
+                if (!label) return;
+                const y = topH + di * (cell + gap) + cell - 1;
+                svg += `<text x="0" y="${y}" font-size="7" font-family="Plus Jakarta Sans,sans-serif" fill="#888">${label}</text>`;
+            });
+
+            // Cells
+            weeks.forEach((week, wi) => {
+                week.forEach((day, di) => {
+                    const x = labelW + wi * (cell + gap);
+                    const y = topH + di * (cell + gap);
+                    const color = day ? (levelColors[day.level] ?? levelColors[0]) : levelColors[0];
+                    if (day) {
+                        svg += `<rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="2" fill="${color}" class="cal-cell" data-date="${day.date}" data-count="${day.count}"/>`;
+                    } else {
+                        svg += `<rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="2" fill="${color}"/>`;
+                    }
+                });
+            });
+
+            svg += '</svg>';
+            el.innerHTML = svg;
+
+            const tooltip = document.getElementById('calTooltip');
+            el.querySelectorAll('.cal-cell').forEach(rect => {
+                rect.addEventListener('mouseenter', () => {
+                    const date  = rect.getAttribute('data-date');
+                    const count = parseInt(rect.getAttribute('data-count'));
+                    const d     = new Date(date);
+                    const label = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+                    tooltip.textContent = count === 0
+                        ? `No contributions — ${label}`
+                        : `${count} contribution${count !== 1 ? 's' : ''} — ${label}`;
+                    tooltip.classList.add('visible');
+                });
+                rect.addEventListener('mousemove', (e) => {
+                    tooltip.style.left = e.clientX + 'px';
+                    tooltip.style.top  = (e.clientY - 40) + 'px';
+                });
+                rect.addEventListener('mouseleave', () => {
+                    tooltip.classList.remove('visible');
+                });
+            });
+        }
+
+        fetchGitHubStats();
+        fetchGitHubCalendar();
+
+        function openWA(e) {
+            e.preventDefault();
+            window.open(atob('aHR0cHM6Ly93YS5tZS80NDc0ODA2Njk3NDY='), '_blank', 'noopener,noreferrer');
+        }
+
+        async function copyEmail(btn) {
+            try { await navigator.clipboard.writeText('dylan9971@hotmail.co.uk'); } catch(_) {}
+            const label = btn.querySelector('.email-copy-text');
+            const original = label.textContent;
+            label.textContent = 'Copied!';
+            btn.style.borderColor = 'var(--accent)';
+            btn.style.color = 'var(--accent)';
+            setTimeout(() => {
+                label.textContent = original;
+                btn.style.borderColor = '';
+                btn.style.color = '';
+            }, 1500);
+        }
+
+        function toggleStack(btn) {
+            const body = btn.closest('.stack-accordion').querySelector('.stack-acc-body');
+            const isOpen = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', !isOpen);
+            body.classList.toggle('open', !isOpen);
+        }
+
+        function toggleMenu(btn) {
+            const menu = btn.closest('.nav-menu');
+            menu.classList.toggle('open');
+        }
+
+        function closeMenu() {
+            document.querySelector('.nav-menu').classList.remove('open');
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.querySelector('.nav-menu');
+            if (!menu.contains(e.target)) menu.classList.remove('open');
+        });
+
+        const emailLink = document.querySelector('.contact-link');
+        if (emailLink) {
+            emailLink.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try { await navigator.clipboard.writeText('dylan9971@hotmail.co.uk'); } catch(_) {}
+                const original = emailLink.textContent;
+                emailLink.textContent = 'Copied!';
+                emailLink.classList.add('sliming');
+                setTimeout(() => {
+                    emailLink.classList.remove('sliming');
+                    emailLink.textContent = original;
+                }, 1300);
+            });
+        }
+    </script>
+    <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>
