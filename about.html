@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dylan Sullivan | About</title>
+    <link rel="icon" type="image/svg+xml" href="favicon (1).svg">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="index.html" class="nav-logo">DylanSullivan</a>
+        </div>
+        <div class="nav-menu">
+            <div class="nav-links">
+                <a href="index.html#work" class="nav-link">Work</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            <button class="menu-btn" onclick="toggleMenu(this)" aria-label="Menu" aria-expanded="false">
+                <span class="menu-btn-bars" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </button>
+            <div class="menu-dropdown">
+                <a href="index.html#work"><img src="briefcase.png" alt="" class="menu-icon">Work</a>
+                <a href="about.html"><img src="about.png" alt="" class="menu-icon">About</a>
+                <div class="menu-divider"></div>
+                <span class="menu-connect-label">Connect with me</span>
+                <div class="menu-socials">
+                    <a href="https://github.com/dylanh9971" target="_blank" rel="noopener noreferrer">
+                        <img src="github.png" alt="GitHub">
+                    </a>
+                    <a href="#" target="_blank" rel="noopener noreferrer">
+                        <img src="linkedin (1).png" alt="LinkedIn">
+                    </a>
+                    <a href="#" onclick="openWA(event)" target="_blank" rel="noopener noreferrer">
+                        <img src="whatsapp.png" alt="WhatsApp">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Hero -->
+    <section class="about-page-hero">
+        <div class="about-page-photo">
+            <img src="dylan.png" alt="Dylan Sullivan">
+        </div>
+        <div class="status-pill">
+            <span class="dot"></span> Available
+        </div>
+        <span class="about-page-tag" id="typewriter"></span>
+    </section>
+
+    <!-- About Content -->
+    <section class="section about-page-section">
+        <div class="about-page-grid">
+
+            <!-- Bio -->
+            <div class="about-page-col">
+                <span class="section-label">About me</span>
+                <p class="about-text">I've always loved the grit of creating things from the ground up. That drive to build naturally led me to technology and my current path in <span class="highlight">Computing and IT</span>. Whether I'm studying for my degree at The Open University or diving into a new project, I treat coding as a craft—always refining my skills to keep my work sharp and my perspective fresh.</p>
+                <p class="about-text">Beyond the screen, I'm usually found building <span class="highlight">strength or strategy</span>; I'm an amateur arm-wrestler by day and a dedicated gamer by night.</p>
+                <p class="about-text">Living in a rural area, I've seen how a lack of digital outreach can hold <span class="highlight">local small businesses</span> back. My goal is to bridge that gap, helping them move beyond local word-of-mouth to reach neighboring towns and cities with a platform that actually works for them.</p>
+                <a href="index.html" class="return-home">← Return home</a>
+            </div>
+
+
+            <!-- Education & Outside the Screen -->
+            <div class="about-page-col">
+                <span class="section-label">Education</span>
+                <div class="edu-card">
+                    <p class="edu-title">BSc (Hons) Computing and IT</p>
+                    <p class="edu-school">The Open University</p>
+                </div>
+
+                <span class="section-label" style="margin-top:1.5rem;">Outside the screen</span>
+                <div class="facts-grid">
+                    <div class="fact-card">
+                        <div class="fact-icon-wrap">
+                            <svg class="fact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5h11M6.5 17.5h11M4 12h16"/><circle cx="3" cy="12" r="1.5"/><circle cx="21" cy="12" r="1.5"/></svg>
+                        </div>
+                        <div class="fact-body">
+                            <p class="fact-title">Arm Wrestler</p>
+                            <p class="fact-desc">Nearly two years ago, I stepped up to the table and fell in love with armwrestling. It's a deeply humbling sport, full of aches and pains, but my drive to improve is constant—and the sheer fun of it is unmatched.</p>
+                        </div>
+                    </div>
+                    <div class="fact-card">
+                        <div class="fact-icon-wrap">
+                            <svg class="fact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 10h2M7 9v2M14 10h.01M17 10h.01M14 12h.01M17 12h.01"/></svg>
+                        </div>
+                        <div class="fact-body">
+                            <p class="fact-title">Gamer</p>
+                            <p class="fact-desc">I love diving into deep strategy and artistic worlds, with Path of Exile and Days Gone being my absolute favorites. For me, it's the ultimate hobby to unwind and stay connected with friends.</p>
+                        </div>
+                    </div>
+                    <div class="fact-card">
+                        <div class="fact-icon-wrap">
+                            <svg class="fact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        </div>
+                        <div class="fact-body">
+                            <p class="fact-title">Rural Roots</p>
+                            <p class="fact-desc">Raised near Newry in County Armagh, my roots are deeply tied to the countryside. Growing up with the breathtaking Mourne Mountains as my backdrop instilled a lifelong love for country life.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <span>© 2026 Dylan Sullivan</span>
+        <div class="socials">
+            <a href="#" class="social-icon" aria-label="LinkedIn">
+                <img src="linkedin (1).png" alt="LinkedIn">
+            </a>
+            <a href="https://github.com/dylanh9971" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                <img src="github.png" alt="GitHub">
+            </a>
+            <a href="#" onclick="openWA(event)" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp">
+                <img src="whatsapp.png" alt="WhatsApp">
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        function openWA(e) {
+            e.preventDefault();
+            window.open(atob('aHR0cHM6Ly93YS5tZS80NDc0ODA2Njk3NDY='), '_blank', 'noopener,noreferrer');
+        }
+
+        function toggleMenu(btn) {
+            const menu = btn.closest('.nav-menu');
+            const isOpen = menu.classList.toggle('open');
+            btn.setAttribute('aria-expanded', isOpen);
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.querySelector('.nav-menu');
+            if (!menu.contains(e.target)) {
+                menu.classList.remove('open');
+                menu.querySelector('.menu-btn').setAttribute('aria-expanded', 'false');
+            }
+        });
+
+
+        function typewriter(el, text, typeSpeed = 80, eraseSpeed = 40, pause = 2000) {
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    el.textContent += text[i++];
+                    setTimeout(type, typeSpeed);
+                } else {
+                    setTimeout(erase, pause);
+                }
+            }
+            function erase() {
+                if (el.textContent.length > 0) {
+                    el.textContent = el.textContent.slice(0, -1);
+                    setTimeout(erase, eraseSpeed);
+                } else {
+                    i = 0;
+                    setTimeout(type, 500);
+                }
+            }
+            type();
+        }
+
+        const tw = document.getElementById('typewriter');
+        if (tw) typewriter(tw, 'Frontend Developer');
+    </script>
+
+</body>
+</html>
