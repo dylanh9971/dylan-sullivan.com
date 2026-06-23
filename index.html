@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dylan Sullivan — UI/UX Designer &amp; Front-End Developer</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+
+  <!-- Fonts: requires internet. Poppins ≈ the heading face, Caveat ≈ the handwritten tagline.
+       Swap these for whatever you used in Figma if different. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============ FIXED LEFT PILL NAV (inline SVG + invisible hotspots) ============ -->
+  <nav class="dock" aria-label="Quick navigation">
+    <div class="dock__inner">
+      <!-- clickable hotspots (kept before the SVGs so :hover can drive the icon pop) -->
+      <a href="#hero"  class="dock__hit dock__hit--home" aria-label="Home"  data-target="hero"></a>
+      <a href="#about" class="dock__hit dock__hit--user" aria-label="About" data-target="about"></a>
+      <a href="#work"  class="dock__hit dock__hit--menu" aria-label="Work"  data-target="work"></a>
+      <!-- desktop: vertical dock -->
+      <svg class="dock__svg dock__svg--v" width="77" height="215" viewBox="0 0 77 215" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g filter="url(#dockv_f0)">
+        <rect x="4" width="69" height="207" rx="32" fill="#1A1A1A"/>
+        </g>
+        <g class="dockv-ic dockv-ic--home" filter="url(#dockv_f1)">
+        <g clip-path="url(#dockv_c0)">
+        <g filter="url(#dockv_f2)">
+        <g clip-path="url(#dockv_c1)">
+        <path d="M20.0995 43.8992C20.0996 41.5544 21.1121 39.3239 22.8769 37.78L34.2744 27.8093C36.6943 25.6924 40.3075 25.6924 42.7275 27.8093L54.1249 37.78C55.8897 39.3239 56.9022 41.5544 56.9023 43.8992L56.9023 58.3416C56.9022 61.8866 54.0284 64.7604 50.4833 64.7605L26.5185 64.7605C22.9734 64.7604 20.0996 61.8866 20.0995 58.3416L20.0995 43.8992ZM33.5732 54.2146C33.5734 54.9565 34.175 55.5583 34.9169 55.5583L42.0829 55.5583C42.8249 55.5583 43.4264 54.9565 43.4267 54.2146C43.4267 53.4725 42.8251 52.8708 42.0829 52.8708L34.9169 52.8708C34.1748 52.8708 33.5732 53.4725 33.5732 54.2146Z" fill="#FAFAFA"/>
+        </g>
+        </g>
+        </g>
+        </g>
+        <g class="dockv-ic dockv-ic--user" filter="url(#dockv_f3)">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M29.0938 94.6458C29.0938 89.4508 33.3051 85.2395 38.5 85.2395C43.6949 85.2395 47.9062 89.4508 47.9062 94.6458C47.9062 99.8407 43.6949 104.052 38.5 104.052C33.3051 104.052 29.0938 99.8407 29.0938 94.6458Z" fill="#FAFAFA"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M24.6146 116.274C24.6146 111.008 28.8832 106.74 34.1488 106.74H42.8512C48.1168 106.74 52.3854 111.008 52.3854 116.274C52.3854 120.408 49.0336 123.76 44.8988 123.76H32.1012C27.9665 123.76 24.6146 120.408 24.6146 116.274Z" fill="#FAFAFA"/>
+        </g>
+        <g class="dockv-ic dockv-ic--menu" filter="url(#dockv_f4)">
+        <path d="M45.667 144.239C51.3565 144.239 55.9688 148.852 55.9688 154.542V172.458C55.9688 178.148 51.3565 182.761 45.667 182.761H31.333C25.6435 182.761 21.0312 178.148 21.0312 172.458V154.542C21.0312 148.852 25.6435 144.239 31.333 144.239H45.667ZM33.125 169.682C32.3829 169.682 31.7812 170.283 31.7812 171.025C31.7815 171.767 32.383 172.369 33.125 172.369H43.875C44.617 172.369 45.2185 171.767 45.2188 171.025C45.2188 170.283 44.6171 169.682 43.875 169.682H33.125ZM31.333 162.515C30.591 162.515 29.9893 163.116 29.9893 163.858C29.9893 164.6 30.5911 165.202 31.333 165.202H45.667C46.4089 165.202 47.0107 164.6 47.0107 163.858C47.0107 163.116 46.409 162.515 45.667 162.515H31.333ZM31.333 155.348C30.5911 155.348 29.9894 155.949 29.9893 156.691C29.9893 157.433 30.591 158.035 31.333 158.035H45.667C46.409 158.035 47.0107 157.433 47.0107 156.691C47.0106 155.949 46.4089 155.348 45.667 155.348H31.333Z" fill="#FAFAFA"/>
+        </g>
+        <defs>
+        <filter id="dockv_f0" x="0" y="0" width="77" height="215" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/></filter>
+        <filter id="dockv_f1" x="13" y="24" width="51" height="51" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/></filter>
+        <filter id="dockv_f2" x="16.0995" y="26.2217" width="44.8027" height="46.5388" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/></filter>
+        <filter id="dockv_f3" x="20.6146" y="85.2395" width="35.7708" height="46.5208" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/></filter>
+        <filter id="dockv_f4" x="17.0312" y="144.239" width="42.9375" height="46.5215" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_1"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_1" result="shape"/></filter>
+        <clipPath id="dockv_c0"><rect width="43" height="43" fill="white" transform="translate(17 67) rotate(-90)"/></clipPath>
+        <clipPath id="dockv_c1"><rect width="38.5387" height="36.8027" fill="white" transform="translate(20.0995 64.7605) rotate(-90)"/></clipPath>
+        </defs>
+      </svg>
+      <!-- mobile: horizontal dock -->
+      <svg class="dock__svg dock__svg--h" width="215" height="77" viewBox="0 0 215 77" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g filter="url(#dock_f0)"><g clip-path="url(#dock_c0)"><rect x="4" y="69" width="69" height="207" rx="32" transform="rotate(-90 4 69)" fill="#1A1A1A"/></g></g>
+        <g filter="url(#dock_f1)"><g clip-path="url(#dock_c1)"><g filter="url(#dock_f2)"><g clip-path="url(#dock_c2)"><path d="M31.0995 32.8991C31.0996 30.5542 32.1121 28.3238 33.8769 26.7799L45.2744 16.8092C47.6943 14.6923 51.3075 14.6923 53.7275 16.8092L65.1249 26.7799C66.8897 28.3238 67.9022 30.5542 67.9023 32.8991L67.9023 47.3414C67.9022 50.8865 65.0284 53.7603 61.4833 53.7604L37.5185 53.7604C33.9734 53.7603 31.0996 50.8865 31.0995 47.3414L31.0995 32.8991ZM44.5732 43.2145C44.5734 43.9564 45.175 44.5582 45.9169 44.5582L53.0829 44.5582C53.8249 44.5582 54.4264 43.9564 54.4267 43.2145C54.4267 42.4724 53.8251 41.8707 53.0829 41.8707L45.9169 41.8707C45.1748 41.8707 44.5732 42.4724 44.5732 43.2145Z" fill="#FAFAFA"/></g></g></g></g>
+        <g filter="url(#dock_f3)"><path fill-rule="evenodd" clip-rule="evenodd" d="M99.0938 24.6459C99.0938 19.451 103.305 15.2396 108.5 15.2396C113.695 15.2396 117.906 19.451 117.906 24.6459C117.906 29.8408 113.695 34.0521 108.5 34.0521C103.305 34.0521 99.0938 29.8408 99.0938 24.6459Z" fill="#FAFAFA"/><path fill-rule="evenodd" clip-rule="evenodd" d="M94.6146 46.2739C94.6146 41.0083 98.8832 36.7396 104.149 36.7396H112.851C118.117 36.7396 122.385 41.0083 122.385 46.2739C122.385 50.4086 119.034 53.7605 114.899 53.7605H102.101C97.9664 53.7605 94.6146 50.4086 94.6146 46.2739Z" fill="#FAFAFA"/></g>
+        <g filter="url(#dock_f4)"><path d="M174.667 15.2393C180.357 15.2394 184.969 19.8524 184.969 25.542V43.458C184.969 49.1476 180.357 53.7606 174.667 53.7608L160.333 53.7608C154.643 53.7606 150.031 49.1476 150.031 43.458V25.542C150.031 19.8524 154.643 15.2394 160.333 15.2393L174.667 15.2393ZM162.125 40.6816C161.383 40.6816 160.781 41.2833 160.781 42.0254C160.782 42.7673 161.383 43.3691 162.125 43.3691H172.875C173.617 43.3691 174.218 42.7673 174.219 42.0254C174.219 41.2833 173.617 40.6816 172.875 40.6816H162.125ZM160.333 33.5147C159.591 33.5148 158.989 34.1164 158.989 34.8584C158.989 35.6004 159.591 36.202 160.333 36.2022H174.667C175.409 36.202 176.011 35.6004 176.011 34.8584C176.011 34.1164 175.409 33.5148 174.667 33.5147H160.333ZM160.333 26.3477C159.591 26.3478 158.989 26.9495 158.989 27.6914C158.989 28.4334 159.591 29.035 160.333 29.0352L174.667 29.0352C175.409 29.035 176.011 28.4334 176.011 27.6914C176.011 26.9495 175.409 26.3478 174.667 26.3477L160.333 26.3477Z" fill="#FAFAFA"/></g>
+        <defs>
+          <filter id="dock_f0" x="0" y="0" width="215" height="77" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="bg"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="a"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="a" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="bg" result="e1"/><feBlend mode="normal" in="SourceGraphic" in2="e1" result="shape"/></filter>
+          <filter id="dock_f1" x="24" y="13" width="51" height="51" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="bg"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="a"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="a" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="bg" result="e1"/><feBlend mode="normal" in="SourceGraphic" in2="e1" result="shape"/></filter>
+          <filter id="dock_f2" x="27.0995" y="15.2217" width="44.8027" height="46.5387" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="bg"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="a"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="a" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="bg" result="e1"/><feBlend mode="normal" in="SourceGraphic" in2="e1" result="shape"/></filter>
+          <filter id="dock_f3" x="90.6146" y="15.2396" width="35.7708" height="46.5209" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="bg"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="a"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="a" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="bg" result="e1"/><feBlend mode="normal" in="SourceGraphic" in2="e1" result="shape"/></filter>
+          <filter id="dock_f4" x="146.031" y="15.2393" width="42.9375" height="46.5215" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="bg"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="a"/><feOffset dy="4"/><feGaussianBlur stdDeviation="2"/><feComposite in2="a" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/><feBlend mode="normal" in2="bg" result="e1"/><feBlend mode="normal" in="SourceGraphic" in2="e1" result="shape"/></filter>
+          <clipPath id="dock_c0"><rect x="4" y="69" width="69" height="207" rx="32" transform="rotate(-90 4 69)" fill="white"/></clipPath>
+          <clipPath id="dock_c1"><rect width="43" height="43" fill="white" transform="translate(28 56) rotate(-90)"/></clipPath>
+          <clipPath id="dock_c2"><rect width="38.5387" height="36.8027" fill="white" transform="translate(31.0995 53.7604) rotate(-90)"/></clipPath>
+        </defs>
+      </svg>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="hero">
+    <!-- organic orange blob (inline SVG) -->
+    <svg class="hero__blob" viewBox="0 0 672 833" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMaxYMin slice">
+      <path fill="#E85D3D" d="M906.125 -440.098C1160.07 -313.162 1271.45 -21.2273 1154.9 211.956C980.167 1291.65 380.559 637.083 416.374 374.395C-50.7319 252.298 466.602 -41.8163 3.09995 -16.6425C119.656 -249.826 652.175 -567.033 906.125 -440.098Z" />
+    </svg>
+
+    <!-- right rail: rotated nav + socials -->
+    <div class="rail">
+      <ul class="rail__nav">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact Me</a></li>
+      </ul>
+      <span class="rail__line" aria-hidden="true">—</span>
+      <ul class="rail__social" aria-label="Social links">
+        <li><a href="https://www.facebook.com/profile.php?id=61590603742733" target="_blank" rel="noopener" aria-label="Facebook" class="social"><img src="images/facebook.png" alt="Facebook" /></a></li>
+        <li><a href="https://wa.me/447480669746" target="_blank" rel="noopener" aria-label="WhatsApp" class="social"><img src="images/whatsapp.png" alt="WhatsApp" /></a></li>
+        <li><a href="https://github.com/dylanh9971" target="_blank" rel="noopener" aria-label="GitHub" class="social"><img src="images/github.png" alt="GitHub" /></a></li>
+      </ul>
+    </div>
+
+    <!-- name block -->
+    <div class="hero__name">
+      <h1 class="name-line">DYLAN</h1>
+      <p class="role"><span class="role__accent">UI/UX</span> Designer &amp; Front-End Developer</p>
+      <h1 class="name-line">SULLIVAN</h1>
+      <div class="hero__cta">
+        <a href="#work" class="btn btn--solid">See my work</a>
+      </div>
+    </div>
+
+    <a href="#about" class="hero__scroll" aria-label="Scroll to content">
+      <span>Scroll</span>
+      <span class="hero__scroll-arrow" aria-hidden="true">↓</span>
+    </a>
+  </header>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="about" id="about">
+    <header class="about__head reveal">
+      <h2 class="section-title">A little about <span class="accent-script">me</span></h2>
+    </header>
+
+    <div class="about__panel">
+      <article class="tile reveal" style="transition-delay:0s">
+        <span class="tile__pill">Where I'm from</span>
+        <p class="tile__body"><span class="tile__lead">Ireland born and raised.</span> I grew up surrounded by good stories and lots of history - which somehow shaped how I approach design. I believe; good design, like a good story, needs structure, patience and a little imagination.</p>
+      </article>
+
+      <article class="tile reveal" style="transition-delay:.12s">
+        <span class="tile__pill">What I do</span>
+        <p class="tile__body"><span class="tile__lead">I'm a naturally creative person and an aspiring web developer.</span> I specialise in UI/UX, but I dont stop at the design file - I build the front-end myself, so nothing gets lost between the sketch and the shipped product.</p>
+      </article>
+
+      <article class="tile reveal" style="transition-delay:.24s">
+        <span class="tile__pill">Outside of work</span>
+        <p class="tile__body"><span class="tile__lead">When I'm not at a screen, I'm at a table - literally.</span> I'm an amateur arm-wrestler, competing in my spare time. Turns out "quietly obsessed with the details" applies just as much to grip technique as it does to pixel spacing.</p>
+      </article>
+    </div>
+
+    <div class="currently reveal" style="transition-delay:.1s">
+      <span class="currently__badge"><span class="currently__dot"></span> Currently</span>
+      <p class="currently__text">In my second year studying a <strong>BSc (Hons) Computing &amp; IT</strong> at the Open University - sharpening the fundamentals behind the design and the code.</p>
+    </div>
+  </section>
+
+  <!-- ============ MY STACK ============ -->
+  <section class="stack" id="stack">
+    <h2 class="section-title reveal">My <span class="accent-script">tools</span></h2>
+    <div class="stack__cluster">
+      <figure class="stack__item reveal" style="transition-delay:0s">
+        <span class="stack__chip"><img src="images/figma.png" alt="Figma" class="stack__icon" /></span>
+        <figcaption class="stack__label">Figma</figcaption>
+      </figure>
+      <figure class="stack__item reveal" style="transition-delay:.08s">
+        <span class="stack__chip"><img src="images/css3.png" alt="CSS3" class="stack__icon" /></span>
+        <figcaption class="stack__label">CSS3</figcaption>
+      </figure>
+      <figure class="stack__item reveal" style="transition-delay:.16s">
+        <span class="stack__chip"><img src="images/html5.png" alt="HTML5" class="stack__icon" /></span>
+        <figcaption class="stack__label">HTML5</figcaption>
+      </figure>
+      <figure class="stack__item reveal" style="transition-delay:.24s">
+        <span class="stack__chip"><img src="images/python.png" alt="Python" class="stack__icon" /></span>
+        <figcaption class="stack__label">Python</figcaption>
+      </figure>
+      <figure class="stack__item reveal" style="transition-delay:.32s">
+        <span class="stack__chip"><img src="images/javascript.png" alt="JavaScript" class="stack__icon" /></span>
+        <figcaption class="stack__label">JavaScript</figcaption>
+      </figure>
+    </div>
+
+    <!-- How I work -->
+    <div class="process">
+      <h3 class="process__title reveal">How I <span class="accent-script">work</span></h3>
+      <div class="process__grid">
+        <article class="process__step reveal" style="transition-delay:0s">
+          <span class="process__num">01</span>
+          <h4 class="process__step-title">Research</h4>
+          <p class="process__step-text">I get to know the problem, the users and the goal before a single pixel is placed.</p>
+        </article>
+        <article class="process__step reveal" style="transition-delay:.1s">
+          <span class="process__num">02</span>
+          <h4 class="process__step-title">Design</h4>
+          <p class="process__step-text">Wireframes turn into polished, accessible interfaces in Figma - structure first, style second.</p>
+        </article>
+        <article class="process__step reveal" style="transition-delay:.2s">
+          <span class="process__num">03</span>
+          <h4 class="process__step-title">Build</h4>
+          <p class="process__step-text">I code the front-end myself, so the shipped product matches the design pixel for pixel.</p>
+        </article>
+        <article class="process__step reveal" style="transition-delay:.3s">
+          <span class="process__num">04</span>
+          <h4 class="process__step-title">Ship</h4>
+          <p class="process__step-text">Test, refine and release - then keep sharpening the details until it feels right.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span class="marquee__item">UI / UX Design</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Front-End Development</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Responsive Layouts</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Clean Code</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Design Systems</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Pixel Perfect</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">User-Centered</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Prototyping</span><span class="marquee__sep">✦</span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee__item">UI / UX Design</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Front-End Development</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Responsive Layouts</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Clean Code</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Design Systems</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Pixel Perfect</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">User-Centered</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Prototyping</span><span class="marquee__sep">✦</span>
+    </div>
+  </div>
+
+  <!-- ============ WORK ============ -->
+  <section class="work" id="work">
+    <header class="work__head reveal">
+      <h2 class="section-title">What I've <span class="accent-script">worked on</span></h2>
+    </header>
+
+    <!-- Replace the .work__thumb backgrounds with real screenshots:
+         e.g. <img src="images/project-1.png" alt="..." class="work__shot" /> -->
+    <div class="work__gallery">
+      <figure class="work__card reveal" style="transition-delay:0s">
+        <a class="work__link" href="https://duirtdara.com" target="_blank" rel="noopener" data-modal="duirtdara-modal" aria-haspopup="dialog" aria-label="Dúirt Dara — view project details">
+          <div class="work__thumb work__thumb--dark">
+            <img src="images/duirtdara.jpg" alt="Dúirt Dara website" class="work__shot" />
+            <span class="work__num">01</span>
+          </div>
+          <figcaption class="work__meta">
+            <h3 class="work__title">Dúirt Dara</h3>
+            <span class="work__tag">Portfolio site</span>
+          </figcaption>
+        </a>
+      </figure>
+      <figure class="work__card reveal" style="transition-delay:.12s">
+        <div class="work__thumb work__thumb--mid" aria-hidden="true"><span class="work__num">02</span></div>
+        <figcaption class="work__meta">
+          <h3 class="work__title">Job finder</h3>
+          <span class="work__tag">Mobile app</span>
+        </figcaption>
+      </figure>
+      <figure class="work__card reveal" style="transition-delay:.24s">
+        <div class="work__thumb work__thumb--light" aria-hidden="true"><span class="work__num">03</span></div>
+        <figcaption class="work__meta">
+          <h3 class="work__title">Portfolio</h3>
+          <span class="work__tag">Web</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="services" id="services">
+    <header class="work__head reveal">
+      <h2 class="section-title">What I can <span class="accent-script">do for you</span></h2>
+    </header>
+    <div class="services__grid">
+      <article class="service reveal" style="transition-delay:0s">
+        <span class="service__num">01</span>
+        <h3 class="service__title">UI / UX Design</h3>
+        <p class="service__text">Clean, user-centered interfaces designed in Figma - from first wireframe to polished, accessible screens.</p>
+      </article>
+      <article class="service reveal" style="transition-delay:.1s">
+        <span class="service__num">02</span>
+        <h3 class="service__title">Front-End Development</h3>
+        <p class="service__text">Responsive, hand-coded HTML, CSS &amp; JavaScript that brings the design to life exactly as intended.</p>
+      </article>
+      <article class="service reveal" style="transition-delay:.2s">
+        <span class="service__num">03</span>
+        <h3 class="service__title">Prototyping</h3>
+        <p class="service__text">Interactive prototypes that let you feel the flow and test ideas before a line of code is written.</p>
+      </article>
+      <article class="service reveal" style="transition-delay:.3s">
+        <span class="service__num">04</span>
+        <h3 class="service__title">Design Systems</h3>
+        <p class="service__text">Reusable components and consistent styling so the product stays coherent as it grows.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <div class="contact__inner reveal">
+      <h2 class="contact__title">Let's <span class="accent-script">work together</span></h2>
+      <p class="contact__text">Got a project, a question, or just want to say hello? Drop me a message below.</p>
+
+      <form id="contact-form" class="contact__form" action="https://formspree.io/f/mvzlrroe" method="POST">
+        <div class="contact__fields">
+          <label class="field">
+            <span class="field__label">Name</span>
+            <input type="text" name="name" placeholder="Your name" data-fs-field />
+          </label>
+          <label class="field">
+            <span class="field__label">Email</span>
+            <input type="email" name="email" placeholder="you@example.com" required data-fs-field />
+            <span class="field__error" data-fs-error="email"></span>
+          </label>
+        </div>
+        <label class="field">
+          <span class="field__label">Message</span>
+          <textarea name="message" rows="4" placeholder="Tell me a little about your project..." required data-fs-field></textarea>
+          <span class="field__error" data-fs-error="message"></span>
+        </label>
+        <button type="submit" class="contact__btn" data-fs-submit-btn>Send message</button>
+        <p class="contact__formmsg contact__formmsg--ok" data-fs-success>Thanks! Your message is on its way — I'll get back to you soon.</p>
+        <p class="contact__formmsg contact__formmsg--err" data-fs-error></p>
+      </form>
+
+      <p class="contact__or">or email me directly at <a class="contact__email" href="mailto:dylan9971@hotmail.co.uk">dylan9971@hotmail.co.uk</a></p>
+
+      <ul class="contact__social" aria-label="Social links">
+        <li><a href="https://www.facebook.com/profile.php?id=61590603742733" target="_blank" rel="noopener" aria-label="Facebook" class="social"><img src="images/facebook.png" alt="Facebook" /></a></li>
+        <li><a href="https://wa.me/447480669746" target="_blank" rel="noopener" aria-label="WhatsApp" class="social"><img src="images/whatsapp.png" alt="WhatsApp" /></a></li>
+        <li><a href="https://github.com/dylanh9971" target="_blank" rel="noopener" aria-label="GitHub" class="social"><img src="images/github.png" alt="GitHub" /></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ PROJECT MODAL: Dúirt Dara ============ -->
+  <div class="modal" id="duirtdara-modal" aria-hidden="true">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="duirtdara-modal-title">
+      <button class="modal__close" type="button" aria-label="Close" data-close>&times;</button>
+
+      <div class="slider" data-slider>
+        <div class="slider__track">
+          <img class="slider__slide" src="images/duirtdara-slide1.jpg" alt="Dúirt Dara — homepage hero" loading="lazy" />
+          <img class="slider__slide" src="images/duirtdara-slide2.jpg" alt="Dúirt Dara — Moments &amp; Places section" loading="lazy" />
+          <img class="slider__slide" src="images/duirtdara-slide3.jpg" alt="Dúirt Dara — Visual Journal section" loading="lazy" />
+        </div>
+        <button class="slider__nav slider__nav--prev" type="button" aria-label="Previous photo">&#8249;</button>
+        <button class="slider__nav slider__nav--next" type="button" aria-label="Next photo">&#8250;</button>
+        <div class="slider__dots" aria-hidden="true"></div>
+      </div>
+
+      <div class="modal__info">
+        <h3 class="modal__title" id="duirtdara-modal-title"><a class="modal__sitelink" href="https://duirtdara.com" target="_blank" rel="noopener">Dúirt Dara</a><span class="modal__tagline">Landing page &amp; portfolio for an Irish-language teacher</span></h3>
+        <dl class="modal__meta">
+          <div class="modal__row">
+            <dt>Built with</dt>
+            <dd>
+              <span class="modal__chip">HTML</span>
+              <span class="modal__chip">CSS</span>
+              <span class="modal__chip">JS</span>
+            </dd>
+          </div>
+          <div class="modal__row">
+            <dt>Built</dt>
+            <dd>April 2026</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Dylan Sullivan — UI/UX Designer &amp; Front-End Developer</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+  <!-- Formspree AJAX (inline submit, no page redirect) -->
+  <script>
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#contact-form', formId: 'mvzlrroe' });
+  </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>
