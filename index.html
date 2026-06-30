@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dylan Sullivan — UI/UX Designer &amp; Front-End Developer</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+
+  <!-- Fonts: requires internet. Poppins ≈ the heading face, Caveat ≈ the handwritten tagline.
+       Swap these for whatever you used in Figma if different. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- set theme before first paint to avoid a flash of the wrong colours -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("theme");
+        if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ============ FIXED SECTION DOCK (+ theme toggle) ============ -->
+  <nav class="dock" aria-label="Section navigation">
+    <ul class="dock__list">
+      <li>
+        <a href="#hero" class="dock__hit" data-target="hero" aria-label="Home">
+          <svg class="dock__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H4a1 1 0 0 1-1-1z"/></svg>
+          <span class="dock__label">Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="#about" class="dock__hit" data-target="about" aria-label="About">
+          <svg class="dock__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21v-1a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6v1"/></svg>
+          <span class="dock__label">About</span>
+        </a>
+      </li>
+      <li>
+        <a href="#work" class="dock__hit" data-target="work" aria-label="Work">
+          <svg class="dock__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="19" height="13" rx="2.5"/><path d="M8.5 7V5.5A2.5 2.5 0 0 1 11 3h2a2.5 2.5 0 0 1 2.5 2.5V7"/></svg>
+          <span class="dock__label">Work</span>
+        </a>
+      </li>
+    </ul>
+    <!-- dark / light theme toggle — shares the dock's slide-in/out -->
+    <button class="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
+      <span class="theme-toggle__track">
+        <svg class="theme-toggle__ic theme-toggle__ic--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" />
+          <path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4l1.4-1.4M18 6l1.4-1.4" />
+        </svg>
+        <svg class="theme-toggle__ic theme-toggle__ic--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <span class="theme-toggle__knob" aria-hidden="true"></span>
+      </span>
+    </button>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="hero">
+    <!-- organic orange blob (inline SVG) -->
+    <svg class="hero__blob" viewBox="0 0 672 833" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMaxYMin slice">
+      <path fill="#E85D3D" d="M906.125 -440.098C1160.07 -313.162 1271.45 -21.2273 1154.9 211.956C980.167 1291.65 380.559 637.083 416.374 374.395C-50.7319 252.298 466.602 -41.8163 3.09995 -16.6425C119.656 -249.826 652.175 -567.033 906.125 -440.098Z" />
+    </svg>
+
+    <!-- right rail: rotated nav + socials -->
+    <div class="rail">
+      <ul class="rail__nav">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact Me</a></li>
+      </ul>
+      <span class="rail__line" aria-hidden="true">—</span>
+      <ul class="rail__social" aria-label="Social links">
+        <li><a href="https://www.facebook.com/profile.php?id=61590603742733" target="_blank" rel="noopener" aria-label="Facebook" class="social"><img src="images/facebook.png" alt="Facebook" /></a></li>
+        <li><a href="https://wa.me/447480669746" target="_blank" rel="noopener" aria-label="WhatsApp" class="social"><img src="images/whatsapp.png" alt="WhatsApp" /></a></li>
+        <li><a href="https://github.com/dylanh9971" target="_blank" rel="noopener" aria-label="GitHub" class="social"><img src="images/github.png" alt="GitHub" /></a></li>
+      </ul>
+    </div>
+
+    <!-- name block -->
+    <div class="hero__name">
+      <h1 class="name-line">DYLAN</h1>
+      <p class="role"><span class="role__accent">UI/UX</span> Designer &amp; Front-End Developer</p>
+      <h1 class="name-line">SULLIVAN</h1>
+      <div class="hero__cta">
+        <a href="#work" class="btn btn--solid">See my work</a>
+        <a href="Dylan_Sullivan_FinalCV.docx" class="btn btn--cv" download>Download CV</a>
+      </div>
+    </div>
+
+    <a href="#about" class="hero__scroll" aria-label="Scroll to content">
+      <span>Scroll</span>
+      <span class="hero__scroll-arrow" aria-hidden="true">↓</span>
+    </a>
+  </header>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="about" id="about">
+    <header class="about__head reveal">
+      <h2 class="section-title">Hi, I'm <span class="accent-script">Dylan</span></h2>
+    </header>
+
+    <div class="about__panel">
+      <article class="tile reveal" style="transition-delay:0s">
+        <div class="tile__body">
+          <h3 class="tile__title">Where I'm from</h3>
+          <p class="tile__text"><span class="tile__lead">Ireland born and raised.</span> I grew up surrounded by good stories and lots of history - which somehow shaped how I approach design. I believe; good design, like a good story, needs structure, patience and a little imagination.</p>
+        </div>
+        <div class="tile__ribbon">
+          <span class="tile__photo"><img src="images/home.png" alt="Where I'm from" /></span>
+        </div>
+      </article>
+
+      <article class="tile reveal" style="transition-delay:.12s">
+        <div class="tile__body">
+          <h3 class="tile__title">What I do</h3>
+          <p class="tile__text"><span class="tile__lead">I'm a naturally creative person and an aspiring web developer.</span> I specialise in UI/UX, but I dont stop at the design file - I build the front-end myself, so nothing gets lost between the sketch and the shipped product.</p>
+        </div>
+        <div class="tile__ribbon">
+          <span class="tile__photo"><img src="images/setup.png" alt="What I do" /></span>
+        </div>
+      </article>
+
+      <article class="tile reveal" style="transition-delay:.24s">
+        <div class="tile__body">
+          <h3 class="tile__title">Outside of work</h3>
+          <p class="tile__text"><span class="tile__lead">When I'm not at a screen, I'm at a table - literally.</span> I'm an amateur arm-wrestler, competing in my spare time. Turns out "quietly obsessed with the details" applies just as much to grip technique as it does to pixel spacing.</p>
+        </div>
+        <div class="tile__ribbon">
+          <span class="tile__photo"><img src="images/table.png" alt="Outside of work" /></span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ MY STACK ============ -->
+  <section class="stack" id="stack">
+    <h2 class="section-title reveal">My <span class="accent-script">tools</span></h2>
+    <div class="stack__cluster">
+      <figure class="stack__item reveal" style="transition-delay:0s">
+        <span class="stack__chip"><img src="images/figma.png" alt="Figma" class="stack__icon" /></span>
+        <figcaption class="stack__label">Figma</figcaption>
+      </figure>
+      <figure class="stack__item reveal" style="transition-delay:.08s">
+        <span class="stack__chip"><img src="images/css3.png" alt="CSS3" class="stack__icon" /></span>
+        <figcaption class="stack__label">CSS3</figcaption>
+      </figure>
+      <figure class="stack__item reveal" style="transition-delay:.16s">
+        <span class="stack__chip"><img src="images/html5.png" alt="HTML5" class="stack__icon" /></span>
+        <figcaption class="stack__label">HTML5</figcaption>
+      </figure>
+      <figure class="stack__item reveal" style="transition-delay:.24s">
+        <span class="stack__chip"><img src="images/python.png" alt="Python" class="stack__icon" /></span>
+        <figcaption class="stack__label">Python</figcaption>
+      </figure>
+      <figure class="stack__item reveal" style="transition-delay:.32s">
+        <span class="stack__chip"><img src="images/javascript.png" alt="JavaScript" class="stack__icon" /></span>
+        <figcaption class="stack__label">JavaScript</figcaption>
+      </figure>
+    </div>
+
+    <!-- How I work -->
+    <div class="process">
+      <h3 class="process__title reveal">How I <span class="accent-script">work</span></h3>
+      <div class="process__grid">
+        <article class="process__step reveal" style="transition-delay:0s">
+          <span class="process__num">01</span>
+          <h4 class="process__step-title">Research</h4>
+          <p class="process__step-text">I get to know the problem, the users and the goal before a single pixel is placed.</p>
+        </article>
+        <article class="process__step reveal" style="transition-delay:.1s">
+          <span class="process__num">02</span>
+          <h4 class="process__step-title">Design</h4>
+          <p class="process__step-text">Wireframes turn into polished, accessible interfaces in Figma - structure first, style second.</p>
+        </article>
+        <article class="process__step reveal" style="transition-delay:.2s">
+          <span class="process__num">03</span>
+          <h4 class="process__step-title">Build</h4>
+          <p class="process__step-text">I code the front-end myself, so the shipped product matches the design pixel for pixel.</p>
+        </article>
+        <article class="process__step reveal" style="transition-delay:.3s">
+          <span class="process__num">04</span>
+          <h4 class="process__step-title">Ship</h4>
+          <p class="process__step-text">Test, refine and release - then keep sharpening the details until it feels right.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span class="marquee__item">UI / UX Design</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Front-End Development</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Responsive Layouts</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Clean Code</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Design Systems</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Pixel Perfect</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">User-Centered</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Prototyping</span><span class="marquee__sep">✦</span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee__item">UI / UX Design</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Front-End Development</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Responsive Layouts</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Clean Code</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Design Systems</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Pixel Perfect</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">User-Centered</span><span class="marquee__sep">✦</span>
+      <span class="marquee__item">Prototyping</span><span class="marquee__sep">✦</span>
+    </div>
+  </div>
+
+  <!-- ============ WORK ============ -->
+  <section class="work" id="work">
+    <header class="work__head reveal">
+      <h2 class="section-title">What I've <span class="accent-script">worked on</span></h2>
+    </header>
+
+    <!-- Replace the .work__thumb backgrounds with real screenshots:
+         e.g. <img src="images/project-1.png" alt="..." class="work__shot" /> -->
+    <div class="work__gallery">
+      <figure class="work__card reveal" style="transition-delay:0s">
+        <a class="work__link" href="https://duirtdara.com" target="_blank" rel="noopener" data-modal="duirtdara-modal" aria-haspopup="dialog" aria-label="Dúirt Dara — view project details">
+          <div class="work__thumb work__thumb--dark">
+            <img src="images/duirtdara.jpg" alt="Dúirt Dara website" class="work__shot" />
+            <span class="work__num">01</span>
+          </div>
+          <figcaption class="work__meta">
+            <h3 class="work__title">Dúirt Dara</h3>
+            <span class="work__tag">Portfolio site</span>
+          </figcaption>
+        </a>
+      </figure>
+      <figure class="work__card reveal" style="transition-delay:.12s">
+        <div class="work__thumb work__thumb--mid" aria-hidden="true"><span class="work__num">02</span></div>
+        <figcaption class="work__meta">
+          <h3 class="work__title">Job finder</h3>
+          <span class="work__tag">Mobile app</span>
+        </figcaption>
+      </figure>
+      <figure class="work__card reveal" style="transition-delay:.24s">
+        <div class="work__thumb work__thumb--light" aria-hidden="true"><span class="work__num">03</span></div>
+        <figcaption class="work__meta">
+          <h3 class="work__title">Portfolio</h3>
+          <span class="work__tag">Web</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="services" id="services">
+    <header class="work__head reveal">
+      <h2 class="section-title">What I can <span class="accent-script">do for you</span></h2>
+    </header>
+    <div class="services__grid">
+      <article class="service reveal" style="transition-delay:0s">
+        <span class="service__num">01</span>
+        <h3 class="service__title">UI / UX Design</h3>
+        <p class="service__text">Clean, user-centered interfaces designed in Figma - from first wireframe to polished, accessible screens.</p>
+      </article>
+      <article class="service reveal" style="transition-delay:.1s">
+        <span class="service__num">02</span>
+        <h3 class="service__title">Front-End Development</h3>
+        <p class="service__text">Responsive, hand-coded HTML, CSS &amp; JavaScript that brings the design to life exactly as intended.</p>
+      </article>
+      <article class="service reveal" style="transition-delay:.2s">
+        <span class="service__num">03</span>
+        <h3 class="service__title">Prototyping</h3>
+        <p class="service__text">Interactive prototypes that let you feel the flow and test ideas before a line of code is written.</p>
+      </article>
+      <article class="service reveal" style="transition-delay:.3s">
+        <span class="service__num">04</span>
+        <h3 class="service__title">Design Systems</h3>
+        <p class="service__text">Reusable components and consistent styling so the product stays coherent as it grows.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <div class="contact__inner reveal">
+      <h2 class="contact__title">Let's <span class="accent-script">work together</span></h2>
+      <p class="contact__text">Got a project, a question, or just want to say hello? Drop me a message below.</p>
+
+      <form id="contact-form" class="contact__form" action="https://formspree.io/f/mvzlrroe" method="POST">
+        <div class="contact__fields">
+          <label class="field">
+            <span class="field__label">Name</span>
+            <input type="text" name="name" placeholder="Your name" data-fs-field />
+          </label>
+          <label class="field">
+            <span class="field__label">Email</span>
+            <input type="email" name="email" placeholder="you@example.com" required data-fs-field />
+            <span class="field__error" data-fs-error="email"></span>
+          </label>
+        </div>
+        <label class="field">
+          <span class="field__label">Message</span>
+          <textarea name="message" rows="4" placeholder="Tell me a little about your project..." required data-fs-field></textarea>
+          <span class="field__error" data-fs-error="message"></span>
+        </label>
+        <button type="submit" class="contact__btn" data-fs-submit-btn>Send message</button>
+        <p class="contact__formmsg contact__formmsg--ok" data-fs-success>Thanks! Your message is on its way — I'll get back to you soon.</p>
+        <p class="contact__formmsg contact__formmsg--err" data-fs-error></p>
+      </form>
+
+      <p class="contact__or">or email me directly at <a class="contact__email" href="mailto:dylan9971@hotmail.co.uk">dylan9971@hotmail.co.uk</a></p>
+
+      <ul class="contact__social" aria-label="Social links">
+        <li><a href="https://www.facebook.com/profile.php?id=61590603742733" target="_blank" rel="noopener" aria-label="Facebook" class="social"><img src="images/facebook.png" alt="Facebook" /></a></li>
+        <li><a href="https://wa.me/447480669746" target="_blank" rel="noopener" aria-label="WhatsApp" class="social"><img src="images/whatsapp.png" alt="WhatsApp" /></a></li>
+        <li><a href="https://github.com/dylanh9971" target="_blank" rel="noopener" aria-label="GitHub" class="social"><img src="images/github.png" alt="GitHub" /></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ PROJECT MODAL: Dúirt Dara ============ -->
+  <div class="modal" id="duirtdara-modal" aria-hidden="true">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="duirtdara-modal-title">
+      <button class="modal__close" type="button" aria-label="Close" data-close>&times;</button>
+
+      <div class="slider" data-slider>
+        <div class="slider__track">
+          <img class="slider__slide" src="images/duirtdara-slide1.jpg" alt="Dúirt Dara — homepage hero" loading="lazy" />
+          <img class="slider__slide" src="images/duirtdara-slide2.jpg" alt="Dúirt Dara — Moments &amp; Places section" loading="lazy" />
+          <img class="slider__slide" src="images/duirtdara-slide3.jpg" alt="Dúirt Dara — Visual Journal section" loading="lazy" />
+        </div>
+        <button class="slider__nav slider__nav--prev" type="button" aria-label="Previous photo">&#8249;</button>
+        <button class="slider__nav slider__nav--next" type="button" aria-label="Next photo">&#8250;</button>
+        <div class="slider__dots" aria-hidden="true"></div>
+      </div>
+
+      <div class="modal__info">
+        <h3 class="modal__title" id="duirtdara-modal-title"><a class="modal__sitelink" href="https://duirtdara.com" target="_blank" rel="noopener">Dúirt Dara</a><span class="modal__tagline">Landing page &amp; portfolio for an Irish-language teacher</span></h3>
+        <dl class="modal__meta">
+          <div class="modal__row">
+            <dt>Built with</dt>
+            <dd>
+              <span class="modal__chip">HTML</span>
+              <span class="modal__chip">CSS</span>
+              <span class="modal__chip">JS</span>
+            </dd>
+          </div>
+          <div class="modal__row">
+            <dt>Built</dt>
+            <dd>April 2026</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Dylan Sullivan — UI/UX Designer &amp; Front-End Developer</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+  <!-- Formspree AJAX (inline submit, no page redirect) -->
+  <script>
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#contact-form', formId: 'mvzlrroe' });
+  </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>
