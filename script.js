@@ -1,0 +1,168 @@
+// ---- footer year ----
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// ---- dark / light theme toggle ----
+// (the page always loads light — see the inline <head> script; the toggle
+//  only changes the theme for the current page view, it isn't remembered)
+(function () {
+  const toggle = document.querySelector(".theme-toggle");
+  if (!toggle) return;
+
+  const root = document.documentElement;
+  const sync = () => toggle.setAttribute("aria-pressed", root.dataset.theme === "dark");
+  sync();
+
+  toggle.addEventListener("click", () => {
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    const apply = () => {
+      root.dataset.theme = next;
+      sync();
+    };
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (document.startViewTransition && !reduce) {
+      document.startViewTransition(apply);
+    } else {
+      apply();
+    }
+  });
+})();
+
+// ---- word rotator ----
+// The mask is resized to whatever phrase is showing, so the line stays centred
+// instead of the short phrases rattling around inside the longest one's width.
+(function () {
+  const list = document.querySelector(".rotator__list");
+  if (!list) return;
+
+  const mask = list.parentElement;
+  const band = mask.closest(".rotator");
+  const words = Array.from(list.querySelectorAll(".rotator__word"));
+  const last = words.length - 1;        // the final word repeats the first
+  if (last < 1) return;
+
+  let index = 0;
+  let paused = false;
+
+  function show(i, animate) {
+    const line = words[0].getBoundingClientRect().height;
+    list.style.transition = animate ? "" : "none";
+    mask.style.transition = animate ? "" : "none";
+    list.style.transform = `translateY(${-i * line}px)`;
+    mask.style.width = `${Math.ceil(words[i].getBoundingClientRect().width)}px`;
+    if (!animate) void list.offsetWidth;  // flush, so the next change animates
+  }
+
+  show(0, false);
+
+  band.addEventListener("mouseenter", () => (paused = true));
+  band.addEventListener("mouseleave", () => (paused = false));
+  window.addEventListener("resize", () => show(index, false));
+
+  setInterval(() => {
+    if (paused) return;
+    index += 1;
+    show(index, true);
+    // landed on the duplicate: once it settles, jump silently back to the top
+    if (index === last) {
+      setTimeout(() => {
+        index = 0;
+        show(0, false);
+      }, 500);
+    }
+  }, 3000);
+})();
+
+// ---- scroll reveal ----
+const revealEls = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window && revealEls.length) {
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+  revealEls.forEach((el) => revealObserver.observe(el));
+}
+
+// ---- project modal + slideshow ----
+(function () {
+  let openTrigger = null;
+
+  function setupSlider(slider) {
+    const track = slider.querySelector(".slider__track");
+    const slides = Array.from(slider.querySelectorAll(".slider__slide"));
+    const dotsWrap = slider.querySelector(".slider__dots");
+    const prev = slider.querySelector(".slider__nav--prev");
+    const next = slider.querySelector(".slider__nav--next");
+    let index = 0;
+
+    const dots = slides.map((_, i) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "slider__dot";
+      dot.setAttribute("aria-label", `Go to photo ${i + 1}`);
+      dot.addEventListener("click", () => go(i));
+      dotsWrap.appendChild(dot);
+      return dot;
+    });
+
+    function go(i) {
+      index = (i + slides.length) % slides.length;
+      track.style.transform = `translateX(${-index * 100}%)`;
+      dots.forEach((d, di) => d.classList.toggle("is-active", di === index));
+    }
+
+    prev.addEventListener("click", () => go(index - 1));
+    next.addEventListener("click", () => go(index + 1));
+    go(0);
+    return { go, reset: () => go(0) };
+  }
+
+  document.querySelectorAll(".modal").forEach((modal) => {
+    const sliderEl = modal.querySelector("[data-slider]");
+    const slider = sliderEl ? setupSlider(sliderEl) : null;
+
+    function close() {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+      // preventScroll matters for the pricing modal: its CTAs are links to
+      // #contact, and yanking focus back to the hero button would scroll the
+      // page up and fight the jump the user just asked for
+      if (openTrigger) openTrigger.focus({ preventScroll: true });
+    }
+
+    function open() {
+      if (slider) slider.reset();
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+      const closeBtn = modal.querySelector(".modal__close");
+      if (closeBtn) closeBtn.focus();
+    }
+
+    modal.__open = open;
+
+    modal.querySelectorAll("[data-close]").forEach((el) =>
+      el.addEventListener("click", close)
+    );
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("is-open")) close();
+    });
+  });
+
+  document.querySelectorAll("[data-modal]").forEach((trigger) => {
+    trigger.addEventListener("click", (e) => {
+      const modal = document.getElementById(trigger.dataset.modal);
+      if (!modal || !modal.__open) return;
+      e.preventDefault();
+      openTrigger = trigger;
+      modal.__open();
+    });
+  });
+})();
