@@ -1,0 +1,1759 @@
+/* ==========================================================================
+   Dylan Sullivan — portfolio
+   Design source: Figma "Portfolio-website" (1440px frames).
+
+   The Figma frames are absolute-positioned artboards; this stylesheet is a
+   fluid re-implementation of them. The rule that keeps the two in sync is the
+   content column: on the 1440px frame everything lives between x=245 and
+   x=1195 — a 950px column with 245px of breathing room either side. That
+   column is `.shell` below. It caps at 950px and falls back to padding on
+   smaller screens, so the side space survives on desktop and tablet.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  --bg:           #f5f5f3;
+  --surface:      #ffffff;
+  --nav-bg:       #efefef;
+
+  --ink:          #16120f;   /* nav "Work", headline line 2 */
+  --text-strong:  #000000;   /* project titles, bio copy   */
+  --muted:        #848484;   /* headline line 1, captions  */
+  --muted-2:      #8a8a8a;   /* hero sub-lines             */
+  --meta:         #6e6e6e;   /* project meta               */
+  --pill-text:    #3d3d3d;   /* filter labels              */
+  --chip-bg:      #e8e8e6;
+  --pill-hover:   #eaeae7;   /* filter pills + View on hover */
+  --chip-hover:   #dcdcd9;   /* their count chip, to stay distinct */
+  --chip-text:    #6b6b6b;
+
+  --rule:         #848484;   /* Line 1 stroke, from the export */
+  --placeholder:  #d9d9d9;   /* avatar + project cards     */
+  --photo:        #000000;   /* photo placeholders         */
+
+  --accent:       #1759f9;
+  --accent-soft:  #e2ebff;
+  --script:       #ff7700;   /* "Día Dúit"                 */
+  --heart:        #e8505b;   /* the "I ♥ …" line           */
+  /* Outline on the cursor + name pill. Must stay LIGHTER than --bg (#f5f5f3)
+     or it reads as a grey outline instead of a white one — and at the bg value
+     it disappears entirely. Usable range is #f5f5f3 → #ffffff; sat two points
+     off the floor of that range — against the page it is barely there, and the
+     work it still does is separating the pill's blue from the ground. Any
+     lower and it meets --bg and the rim goes altogether. */
+  --trim:         #f7f7f5;
+
+  --icon:         #16120f;
+  --moon:         #848484;   /* moon 1 stroke */
+  --btn-bg:       #16120f;
+  --btn-fg:       #ffffff;
+
+  --shadow:       0 4px 4px rgba(0, 0, 0, .25);
+
+  /* The View button's height. The project head reserves it whether or not
+     a button is present, so tiles without one keep their tags and copy
+     level with tiles that have one. */
+  --view-h:       29px;
+
+  --font:         'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-script:  'Seaweed Script', cursive;
+
+  /* Layout ---------------------------------------------------------------- */
+  --shell:        950px;                    /* the Figma content column      */
+  --gutter:       clamp(20px, 5vw, 48px);   /* min side space under 1046px   */
+
+  /* Vertical rhythm — scales with the viewport so mobile isn't left airy.   */
+  --space-sm:     clamp(24px, 4vw, 40px);
+  --space-md:     clamp(40px, 7vw, 88px);
+  --space-lg:     clamp(56px, 11vw, 150px);
+  --space-xl:     clamp(72px, 15vw, 215px);
+
+  /* Hero portrait unit — one knob drives avatar, cursor and badge together. */
+  --avatar:       clamp(132px, 20vw, 199px);
+
+  /* How far the name badge would spill past the right edge: it sits at
+     110% of the avatar and is ~127px wide, against a centred avatar.
+     Resolves to 0 on anything wider than about 440px. */
+  --overhang:     calc(0.6 * var(--avatar) + 135px - 50vw);
+}
+
+/* Dark theme. Lives on <html>, not <body>, so the inline head script can set
+   it before the body exists — that's what stops the white flash on load.
+   Neutral greys rather than the old navy, built around a near-black ground. */
+.dark {
+  --bg:           #111111;
+  --surface:      #1b1b1b;
+  --nav-bg:       #202020;
+
+  --ink:          #f2f2f0;
+  --text-strong:  #ffffff;
+  --muted:        #8c8c8c;
+  --muted-2:      #909090;
+  --meta:         #b3b3b3;
+  --pill-text:    #c2c2c2;
+  --chip-bg:      #2b2b2b;
+  --pill-hover:   #262626;
+  --chip-hover:   #383838;
+  --chip-text:    #b0b0b0;
+
+  --rule:         #333333;
+  --placeholder:  #242424;
+
+  --accent:       #7ea2ff;
+  --accent-soft:  #1c2942;
+  --heart:        #ff6b74;   /* lifted for a dark ground */
+  --trim:         #2f2f2f;   /* lighter than --bg, so it still reads as a rim */
+
+  --icon:         #f2f2f0;
+  --moon:         #b0b0b0;
+  --btn-bg:       #f2f2f0;
+  --btn-fg:       #111111;
+  --shadow:       0 4px 10px rgba(0, 0, 0, .6);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;   /* stop iOS inflating the hero copy */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: var(--font);
+  line-height: 1.3;                 /* matches Figma's "auto" leading */
+  color: var(--text-strong);
+  overflow-x: hidden;               /* the badge overhangs the hero on purpose */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, p, figure, ul, li { margin: 0; padding: 0; }
+h1, h2 { font-size: inherit; font-weight: inherit; }
+ul { list-style: none; }
+a { text-decoration: none; color: inherit; }
+img, svg { max-width: 100%; }
+
+button {
+  font: inherit;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   Views — Work and About are two halves of one document now.
+
+   Everything is gated on .js: with scripting off no class lands on <html>,
+   both views stay visible, and the page degrades to one long readable
+   document rather than hiding half its content behind a script that never ran.
+   -------------------------------------------------------------------------- */
+.js .view--about          { display: none; }
+.js.view-about .view--work  { display: none; }
+.js.view-about .view--about { display: block; }
+
+/* The About content fades up as it arrives. The rule is keyed on the active
+   state, so the animation re-runs on every switch into the view rather than
+   only on first load. It starts as the avatar finishes turning. */
+.js.view-about .view--about {
+  animation: view-fade-in .45s cubic-bezier(.22, .61, .36, 1) both;
+}
+
+@keyframes view-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Scroll reveal (About)
+
+   script.js tags these and flips .is-visible as each one scrolls into view.
+   Gated on .js so nothing can be left permanently invisible if scripting is
+   off — and the script falls back to revealing everything at once where
+   IntersectionObserver is missing.
+   -------------------------------------------------------------------------- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .5s ease,
+              transform .55s cubic-bezier(.22, .7, .3, 1);
+  transition-delay: calc(var(--r, 0) * 70ms);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Polaroids come further from below and overshoot slightly on arrival, so they
+   pop onto the page rather than sliding. */
+/* Longhands, not the `transition` shorthand: the shorthand would reset
+   transition-delay to 0s and wipe out the stagger inherited from .reveal,
+   leaving every polaroid in a row to pop at the same instant. */
+.js .reveal--pop {
+  transform: translateY(48px) scale(.93);
+  transition-property: opacity, transform;
+  transition-duration: .42s, .6s;
+  transition-timing-function: ease, cubic-bezier(.34, 1.32, .5, 1);
+}
+
+.js .reveal--pop.is-visible { transform: none; }
+
+/* The content column. Every band on the page sits inside one of these. */
+.shell {
+  width: 100%;
+  max-width: calc(var(--shell) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* --------------------------------------------------------------------------
+   3. Header — nav pill centred, controls flush to the column's right edge
+   -------------------------------------------------------------------------- */
+/* Not a fixed bar — just the first thing on the page. It scrolls away with
+   everything else, so it needs no sticky positioning, no stacking context and
+   no background of its own to hide content passing underneath. */
+.site-header {
+  padding-block: 15px;
+}
+
+/* 1fr auto 1fr keeps the nav pill optically centred on the page at every width
+   — the side columns are equal, so the pill sits dead centre regardless of how
+   wide the controls on the right are. */
+.site-header__inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(6px, 2vw, 12px);
+}
+
+/* Portrait and name in the header's left column, sized to sit on the nav
+   dock's line rather than compete with it: the same type as a nav link, and a
+   thumbnail no taller than the dock. */
+.ident {
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  /* Nudged in by a filter pill's left padding. The shell edge would put the
+     portrait hard against the page margin, ahead of every label under it; this
+     lines it up with "Solo Projects" and "Concepts" instead. */
+  margin-inline-start: 14px;
+}
+
+/* The source portrait is tall (500x636); cropping square from just above the
+   middle keeps the face centred instead of the chin. */
+.ident__avatar {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 9px;
+  object-fit: cover;
+  object-position: 50% 22%;
+  background: var(--placeholder);
+}
+
+.ident__name {
+  font-size: clamp(14px, 1.3vw, 16px);
+  font-weight: 500;
+  color: var(--muted);        /* the grey of headline line 1 */
+  white-space: nowrap;
+}
+
+/* Rounded-rectangle dock — softened corners rather than a full pill, with the
+   current page carried on a white tab inside it. Pure CSS: the tab marks the
+   current page and nothing else, so nothing can drift out of sync. */
+.nav {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 7px;
+  /* No fill. The dock is a white rim and a drop shadow, with the page showing
+     through it -- only the current tab is solid. A grey slab in its place
+     reads as a segmented button bar and swallows the white tab's contrast,
+     which is what made this look nothing like the reference. */
+  background: transparent;
+  border-radius: 13px;
+  /* Two layers: a tight one to seat the dock on the page, and a wider, softer
+     one for the drop itself. A single blur either looks hard at the edge or
+     muddy further out. */
+  box-shadow: inset 0 0 0 1px #ffffff,
+              0 1px 2px  rgba(0, 0, 0, .06),
+              0 4px 12px rgba(0, 0, 0, .10);
+}
+
+/* A black drop is nearly invisible against a near-black page, so it deepens
+   and picks up a faint light rim to keep the dock's edge legible. */
+.dark .nav {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07),
+              0 1px 2px  rgba(0, 0, 0, .5),
+              0 6px 18px rgba(0, 0, 0, .55);
+}
+
+.nav__link {
+  padding: 5px 9px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 400;
+  /* A step darker than --muted: these are the page's primary navigation, and
+     against the dock's own grey the lighter value reads as disabled. */
+  color: var(--meta);
+  text-align: center;
+  white-space: nowrap;
+  transition: color .2s ease, background .2s ease;
+}
+
+/* Hovering a page you're not on fills its tab with a soft grey, so the dock
+   previews the shape the white tab would take. */
+.nav__link:not([aria-current="page"]):hover,
+.nav__link:not([aria-current="page"]):focus-visible {
+  background: rgba(0, 0, 0, .06);
+  color: var(--ink);
+}
+/* A black wash is invisible on a near-black dock, so flip it to a white one. */
+.dark .nav__link:not([aria-current="page"]):hover,
+.dark .nav__link:not([aria-current="page"]):focus-visible {
+  background: rgba(255, 255, 255, .08);
+}
+
+/* Same reason as the nav hover: a black ring is invisible on a dark ground. */
+.dark .filter {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .07),
+              0 1px 3px rgba(0, 0, 0, .5);
+}
+
+
+/* The current tab is set in 500 and the others in 400, so a tab changes width
+   as it gains or loses the current page. That resized the dock by a tenth of a
+   pixel and, because it is centred, shifted the whole thing -- enough to see
+   as a twitch on every view change, and enough to slide the labels a full
+   pixel against each other.
+
+   Each tab now also lays out an invisible copy of its own label at the bold
+   weight. The copy has no height, so it adds nothing vertically, but it holds
+   the tab at its bold width in both states and the dock stops moving. */
+.nav__link::after {
+  content: attr(data-label);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  font-weight: 500;
+  visibility: hidden;
+}
+
+/* The current view. */
+.nav__link[aria-current="page"] {
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .10);
+}
+
+.header-actions {
+  grid-column: 3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+/* The icon stays 21px, but ::after grows the touchable area to ~39px so it is
+   not a pinpoint target on a phone. Kept off the layout box so the header
+   spacing is unaffected. */
+/* 18, not 17: the controls row is 28px tall, and an odd mark inside an even
+   row centres onto a half pixel, which draws the glyph off the pixel grid and
+   reads as sitting slightly high. An even size lands on whole pixels. */
+.moon-btn {
+  position: relative;
+  width: 18px; height: 18px;
+  flex: none;
+  color: var(--moon);
+}
+.moon-btn::after,
+.plus-btn::after {
+  content: '';
+  position: absolute;
+  inset: -11px;
+}
+.plus-btn::after { inset: -6px; }
+/* Positioned so it paints above the hover plate, which is absolute and would
+   otherwise cover it. */
+.moon-btn svg { position: relative; display: block; width: 100%; height: 100%; }
+
+/* Hover plate. Sized off the plus button beside it -- 29x28 on a 10px radius
+   -- so the two controls read as one pair rather than a box and a loose mark.
+   It is a second pseudo-element because ::after is already carrying the touch
+   target, which is deliberately wider than the plate should be. */
+.moon-btn::before {
+  content: '';
+  position: absolute;
+  inset: -5px -5.5px;
+  border-radius: 10px;
+  background: transparent;
+  transition: background .16s ease;
+}
+.moon-btn:hover::before { background: rgba(0, 0, 0, .06); }
+
+/* A black wash is invisible on a near-black header, so it flips to a white
+   one -- same swap the nav links make. */
+.dark .moon-btn:hover::before { background: rgba(255, 255, 255, .08); }
+
+/* Show whichever icon describes what the button will DO next: a moon while the
+   page is light, a sun while it is dark. */
+.moon-btn .icon--sun  { display: none; }
+.dark .moon-btn .icon--moon { display: none; }
+.dark .moon-btn .icon--sun  { display: block; }
+
+.plus-btn {
+  position: relative;
+  width: 29px; height: 28px;
+  flex: none;
+  background: var(--btn-bg);
+  border-radius: 10px;
+}
+.plus-btn__h,
+.plus-btn__v {
+  position: absolute;
+  background: var(--btn-fg);
+  border-radius: 1px;
+}
+.plus-btn__h { width: 15px; height: 2px;  left: 7px;    top: 13px; }
+.plus-btn__v { width: 2px;  height: 14px; left: 13.5px; top: 7px;  }
+
+/* Both bars are already centred on the button, so spinning each about its own
+   centre keeps them perpendicular — 135deg lands on an X after most of a turn,
+   which reads as a spin rather than a flick. */
+.plus-btn__h,
+.plus-btn__v { transition: transform .38s cubic-bezier(.34, 1.28, .5, 1); }
+
+.menu.is-open .plus-btn__h,
+.menu.is-open .plus-btn__v { transform: rotate(135deg); }
+
+/* --------------------------------------------------------------------------
+   3b. Quick menu
+   -------------------------------------------------------------------------- */
+/* display:flex, not the default block: the button inside is inline-level, so a
+   block wrapper would size itself to a line box (~33px) instead of the button
+   (28px) and leave baseline descender space underneath — which pushed the plus
+   about 2.4px above the moon and the nav pill it should line up with. */
+.menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Deliberately dark in both themes, as in the reference. */
+.menu__panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 20;
+  min-width: 168px;
+  padding: 8px;
+  background: #191919;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .28),
+              0 0 0 1px rgba(255, 255, 255, .06);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px) scale(.97);
+  transform-origin: top right;
+  pointer-events: none;
+  /* visibility flips only after the fade, so the panel can't be tabbed to
+     while it is invisible. */
+  transition: opacity .16s ease, transform .16s ease, visibility 0s .16s;
+}
+
+.menu.is-open .menu__panel {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity .18s ease,
+              transform .24s cubic-bezier(.34, 1.28, .5, 1),
+              visibility 0s;
+}
+
+.menu__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f2f2f0;
+  transition: background .15s ease;
+}
+.menu__item:hover,
+.menu__item:focus-visible { background: rgba(255, 255, 255, .09); }
+
+.menu__item svg {
+  width: 16px; height: 16px;
+  flex: none;
+  display: block;
+  opacity: .9;
+}
+
+/* --------------------------------------------------------------------------
+   4. Hero
+   -------------------------------------------------------------------------- */
+.hero {
+  padding-top: var(--space-lg);
+  text-align: center;
+}
+
+/* Portrait + cursor + badge. The avatar is centred on the page and the badge
+   deliberately overhangs to the right, exactly as in the frame. */
+.hero__figure {
+  position: relative;
+  width: var(--avatar);
+  height: var(--avatar);
+  margin: 0 auto var(--space-md);
+  perspective: 900px;        /* gives the flip real depth instead of a squash */
+
+  /* The badge overhangs the avatar to the right, so a centred avatar pushes it
+     off-screen on narrow phones. Rather than move the badge — which would
+     break the arrangement — the whole unit slides left by exactly the amount
+     that overhangs, and by nothing at all once there is room. `left` (not
+     margin) so the auto-centring underneath is left intact. */
+  left: calc(-1 * max(0px, var(--overhang)));
+}
+
+.avatar {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: var(--placeholder);
+  /* Two layers, same idea as the name pill: a tight one to seat the circle on
+     the page and a wide, soft one for the drop. Kept low in opacity — at this
+     size a single blur either rings the edge or muddies into a grey cloud. */
+  box-shadow: 0 2px 5px   rgba(0, 0, 0, .05),
+              0 12px 28px rgba(0, 0, 0, .10);
+  overflow: hidden;
+}
+
+/* Neither layer registers against a near-black ground, so both deepen. */
+.dark .avatar {
+  box-shadow: 0 2px 5px   rgba(0, 0, 0, .5),
+              0 12px 28px rgba(0, 0, 0, .55);
+}
+/* The portrait is taller than the circle, so `cover` crops top and bottom.
+   Biasing the focal point upward keeps the whole head in frame — it shifts
+   the visible window up the source image, which moves the subject down. */
+.avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   4b. Avatar flip between views
+
+   Switching Work <-> About turns the circle edge-on, swaps the photo at the
+   midpoint, then turns it back. Two animations rather than one so the photo
+   can be exchanged while nothing is visible; the incoming half continues the
+   rotation the outgoing half started, so it reads as a single turn.
+   -------------------------------------------------------------------------- */
+.avatar {
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.avatar.is-flip-out-fwd  { animation: avatar-out-fwd  .26s ease-in both; }
+.avatar.is-flip-out-back { animation: avatar-out-back .26s ease-in both; }
+.avatar.is-flip-in-fwd   { animation: avatar-in-fwd   .34s cubic-bezier(.2, .7, .3, 1) both; }
+.avatar.is-flip-in-back  { animation: avatar-in-back  .34s cubic-bezier(.2, .7, .3, 1) both; }
+
+@keyframes avatar-out-fwd  { from { transform: none; } to { transform: rotateY(90deg);  } }
+@keyframes avatar-out-back { from { transform: none; } to { transform: rotateY(-90deg); } }
+@keyframes avatar-in-fwd   { from { transform: rotateY(-90deg); } to { transform: none; } }
+@keyframes avatar-in-back  { from { transform: rotateY(90deg);  } to { transform: none; } }
+
+/* Figma puts the cursor at (818.5, 379.11) against an avatar origin of
+   (621, 226): 99.2% across the avatar box and 76.9% down it. */
+.cursor {
+  position: absolute;
+  left: 99.2%;
+  top: 76.9%;
+  width: 28px; height: 27px;
+  overflow: visible;
+}
+/* Overrides the stroke="white" presentation attribute on the exported path —
+   CSS wins over presentation attributes, so the markup stays as Figma gave it. */
+.cursor { filter: drop-shadow(0 3px 6px rgba(20, 45, 105, .16)); }
+.cursor path { fill: var(--accent-soft); stroke: var(--trim); }
+.dark .cursor { filter: drop-shadow(0 3px 7px rgba(0, 0, 0, .55)); }
+
+/* Figma puts the badge at (841, 402) — 110% across, 88% down. */
+.badge {
+  position: absolute;
+  left: 110%;
+  top: 88%;
+  display: inline-block;
+  padding: 7px 14px;
+  background: var(--accent-soft);
+  border: 2px solid var(--trim);
+  border-radius: 30px;
+  box-shadow: 0 1px 2px  rgba(20, 45, 105, .07),
+              0 6px 16px rgba(20, 45, 105, .13);
+  font-size: clamp(14px, 1.4vw, 17px);
+  font-weight: 500;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* A blue-black drop is invisible on a near-black page, so it deepens to a
+   plain black one -- same reasoning as the nav dock above. */
+.dark .badge {
+  box-shadow: 0 1px 2px  rgba(0, 0, 0, .5),
+              0 6px 18px rgba(0, 0, 0, .5);
+}
+
+/* No max-width: the shell already caps this at 950px, which is exactly wide
+   enough to keep each line unbroken down to about 400px of viewport. */
+/* 67px, i.e. 3px down from the Figma frame's 70px. The vw term drops to match
+   (5.85 × 11.48 = 67) so the ramp still tops out at the same viewport width. */
+.headline {
+  font-size: clamp(27px, 5.85vw, 67px);
+  font-weight: 400;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+.headline__1,
+.headline__2 { display: block; }
+.headline__1 { color: var(--muted); }
+.headline__2 { color: var(--ink);   }
+
+/* Headline entrance — script.js splits the two lines into per-letter spans and
+   adds .headline--animate on the first visit of a session. Without JS (or on a
+   repeat visit) no spans exist and the headline just sits there, fully legible.
+   Words stay whole: .headline__word is inline-block so lines never break
+   mid-word, and the spaces between words are real text nodes so they still do. */
+.headline__word { display: inline-block; }
+.headline__char { display: inline-block; }
+
+.headline--animate .headline__char {
+  animation: char-drop .5s cubic-bezier(.34, 1.56, .64, 1) backwards;
+  animation-delay: calc(var(--i) * 28ms);
+}
+
+/* The full stop is the punchline, so it gets a taller hop and a second settle.
+   These MUST stay longhands: an `animation:` shorthand here would reset
+   animation-delay to 0s and the dot would fire first instead of last. */
+.headline--animate .headline__char--stop {
+  animation-name: char-stop;
+  animation-duration: .78s;
+}
+
+@keyframes char-drop {
+  from { opacity: 0; transform: translateY(.45em) scaleY(.86); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes char-stop {
+  0%   { opacity: 0; transform: translateY(.5em)  scale(.5);   }
+  40%  { opacity: 1; transform: translateY(-.3em) scale(1.35); }
+  62%  { transform: translateY(0)     scale(1);    }
+  78%  { transform: translateY(-.12em) scale(1.12); }
+  100% { transform: none; }
+}
+
+/* 19px (3px down from 22px), and the two lines pulled tight to each other —
+   margin-top here only ever applies to .sub--2, since .sub--1 overrides it
+   below to hold the gap down from the headline. */
+.sub {
+  margin-top: 5px;
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-weight: 400;
+  color: var(--muted-2);
+  text-wrap: balance;
+}
+.sub--1 { margin-top: var(--space-sm); }
+
+/* --------------------------------------------------------------------------
+   4b. Staged reveal — everything below the headline
+
+   The hero portrait and the headline arrive first; the sub-lines, the work
+   section and the footer stay hidden until the headline has finished bouncing
+   (script.js measures that, then waits a further second) and then fade up.
+
+   Scoped to .js-stage so it only ever applies when the inline head script ran.
+   pointer-events is off while hidden, otherwise the invisible links below
+   would still be clickable during the wait.
+   -------------------------------------------------------------------------- */
+.js-stage .sub,
+.js-stage .work,
+.js-stage .contact,
+.js-stage .site-footer {
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+}
+
+.js-stage.is-revealed .sub,
+.js-stage.is-revealed .work,
+.js-stage.is-revealed .contact,
+.js-stage.is-revealed .site-footer {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition: opacity .4s ease, transform .4s cubic-bezier(.22, .61, .36, 1);
+}
+
+/* Two distinct waves rather than a trickle: the hero sub-lines land on their
+   own first, then everything below them arrives together as one group. The
+   .45s delay is just under the .5s fade, so the second wave starts as the
+   first finishes and the two read as connected instead of separate events. */
+.js-stage.is-revealed .work,
+.js-stage.is-revealed .contact,
+.js-stage.is-revealed .site-footer {
+  transition-delay: .3s;
+}
+
+/* --------------------------------------------------------------------------
+   5. Work — filter pills + project grid
+   -------------------------------------------------------------------------- */
+.work { padding-top: var(--space-xl); }
+
+/* One line, always. Where they no longer fit, the row becomes a swipeable
+   strip rather than stacking -- the pills read as one set of options that way,
+   and adding a category pushes the projects sideways instead of down. */
+.filters {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  /* Room for the pills' 1px ring and 3px drop. overflow-x below forces the
+     other axis to auto, which would otherwise shave both off. */
+  padding-block: 5px;
+  margin-bottom: calc(var(--space-sm) - 5px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;   /* a swipe past the end must not go back */
+  scrollbar-width: none;            /* Firefox */
+}
+/* The strip is swiped, not dragged by a bar; on a trackpad the pills' own
+   overflow is the only cue needed. */
+.filters::-webkit-scrollbar { display: none; }
+
+/* Compact, fully rounded, sized to their own content. The edge is a 1px ring
+   plus a shallow shadow rather than a soft drop — that is what keeps the pill
+   crisp against the off-white page instead of looking like it is floating. */
+.filter {
+  display: inline-flex;
+  flex: none;              /* keep their own width; never squeezed to fit */
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px 5px 14px;
+  background: var(--surface);
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .04),
+              0 1px 3px rgba(0, 0, 0, .07);
+  transition: background .18s ease;
+}
+/* Hover is a flat tint and nothing else — the shadow stays exactly as it is,
+   so the pill neither lifts nor grows. */
+.filter:hover { background: var(--pill-hover); }
+.filter:hover .filter__count { background: var(--chip-hover); }
+
+.filter__label {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--pill-text);
+  white-space: nowrap;
+  transition: color .2s ease;
+}
+
+/* Soft grey counter tucked against the pill's right edge. */
+.filter__count {
+  flex: none;
+  min-width: 20px;
+  padding: 1px 6px;
+  background: var(--chip-bg);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--chip-text);
+  text-align: center;
+  transition: background .2s ease, color .2s ease;
+}
+
+.filter[aria-pressed="true"] { background: var(--accent-soft); }
+.filter[aria-pressed="true"] .filter__label { color: var(--accent); }
+.filter[aria-pressed="true"] .filter__count {
+  background: rgba(23, 89, 249, .14);
+  color: var(--accent);
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md) 24px;   /* 2 × 463 + 24 = 950, the Figma column */
+}
+
+/* A column, so the card can be pinned to the bottom of the cell. Grid stretches
+   both projects to the height of the taller one, so bottom-aligned cards are
+   also top-aligned — they stop drifting when one description wraps to a
+   different number of lines than the other. */
+.project {
+  display: flex;
+  flex-direction: column;
+  transition: opacity .2s ease;
+}
+.project[hidden] { display: none; }
+
+/* Title and View share a row; the title may wrap to two lines and the button
+   stays pinned to the top-right, as in the reference. */
+.project__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: var(--view-h);   /* keeps every tile's head the same height */
+}
+
+.project__view {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--view-h);       /* explicit, so --view-h is the single source */
+  padding: 0 12px;
+  background: var(--surface);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-strong);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .04),
+              0 1px 3px rgba(0, 0, 0, .07);
+  transition: background .18s ease;
+}
+.project__view svg { width: 12px; height: 12px; display: block; }
+
+.project__view:hover,
+.project__view:focus-visible { background: var(--pill-hover); }
+
+.dark .project__view {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .07),
+              0 1px 3px rgba(0, 0, 0, .5);
+}
+
+
+/* The year rides on the title line, middot-separated, as in the reference.
+   Weight alone sets it back from the project name — no colour declaration, so
+   the year and its separator inherit the title's ink. The separator is
+   generated; the markup carries only the year itself. */
+.project__year {
+  white-space: nowrap;
+}
+.project__year::before {
+  content: "\0000B7";
+  margin: 0 7px;
+}
+
+.project__title {
+  font-size: clamp(15px, 1.45vw, 17px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+}
+
+/* Tag row: a filled lead chip, then plain tags separated by middots. The
+   separator is generated in CSS so the markup stays as a clean list of tags. */
+.project__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--meta);
+}
+
+.project__tag { white-space: nowrap; }
+
+.project__tag--lead {
+  padding: 2px 7px;
+  background: var(--accent-soft);
+  border-radius: 6px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.project__tag + .project__tag::before {
+  content: "\0000B7";
+  margin-right: 7px;
+  color: var(--muted);
+}
+
+/* The 24px gap down to the card lives here rather than on the card, because
+   the card's own margin-top is doing the bottom-pinning below. */
+.project__desc {
+  max-width: 355px;
+  margin-top: 7px;
+  margin-bottom: 14px;
+  font-size: clamp(13px, 1.15vw, 14px);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.project__card {
+  position: relative;        /* anchors the hover hint */
+  margin-top: auto;          /* absorbs the slack so every card bottoms out level */
+  aspect-ratio: 463 / 388;
+  cursor: pointer;
+  transition: transform .25s cubic-bezier(.2, .7, .3, 1);
+  background: var(--placeholder);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.project__card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* The tile settles back very slightly on hover — a sink, not a lift, so it
+   reads as being pressed rather than floating. */
+.project__card:hover { transform: scale(.985); }
+
+/* Same pill as the About-page tooltips: dark in both themes, white text.
+   aria-hidden in the markup — the card already has a labelled View link, and
+   a second announcement of the same action is noise. */
+.project__hint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, calc(-50% + 6px)) scale(.96);
+  padding: 7px 15px;
+  background: #191919;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .22),
+              0 0 0 1px  rgba(255, 255, 255, .06);
+  font-size: 13px;
+  font-weight: 600;
+  color: #f2f2f0;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease,
+              transform .24s cubic-bezier(.34, 1.32, .5, 1);
+}
+
+/* The label is generated rather than written into each tile, so it follows the
+   project's own data-tags. ~= matches one word in the space-separated list, so
+   any project tagged "concepts" says so without touching its markup. The span
+   is aria-hidden, so generated content here reaches nobody's screen reader. */
+.project__hint::after { content: "View site"; }
+.project[data-tags~="concepts"] .project__hint::after { content: "Open concept"; }
+
+.project__card:hover .project__hint {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* --------------------------------------------------------------------------
+   6. About — greeting + bio column
+   -------------------------------------------------------------------------- */
+/* --space-lg, matching the .intro-line margin below it, so the greeting sits
+   with equal air above and below. (The hero figure's own margin-bottom is
+   --space-md; adjacent margins collapse to the larger of the two, so this
+   value alone sets the gap.) */
+.greeting {
+  margin-top: var(--space-lg);
+  font-family: var(--font-script);
+  font-size: clamp(52px, 7.6vw, 92px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--script);
+  text-align: center;
+}
+
+/* Label + wave -----------------------------------------------------------
+   "wave:" is a static prefix; only the greeting itself moves. script.js splits
+   that half into per-letter spans and each rides a continuous sine-ish bob on
+   a stagger, so the motion travels along the phrase as a wave rather than the
+   letters bouncing in unison. */
+.greeting__label {
+  color: var(--muted);
+}
+
+.greeting__word { display: inline-block; }
+.greeting__char { display: inline-block; }
+
+.js.view-about .greeting__char {
+  animation: greeting-wave 2s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 110ms);
+}
+
+@keyframes greeting-wave {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-0.16em); }
+}
+
+/* Figma runs the About copy in a 336px column centred on the page. */
+/* Smaller, medium-weight and tightly led, so each block reads as a compact
+   stack of short lines rather than loose body copy. */
+.bio {
+  max-width: 380px;
+  margin: var(--space-lg) 0 0;   /* flush left, level with the photo grid */
+  font-size: clamp(16px, 1.52vw, 18px);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  color: var(--text-strong);
+  /* The column is centred on the page (margin auto), but the lines inside it
+     align left — centred ragged text loses the eye on every line return. */
+  text-align: left;
+}
+/* No paragraph gap — the sentences run on as one block, as in the frame.
+   They stay separate <p> elements so each still reads as its own sentence to
+   a screen reader; only the visual spacing is removed. */
+.bio p + p { margin-top: 0; }
+
+/* Sits directly on the line above the block it introduces: no bottom margin,
+   and the same size and leading, so the two read as one continuous stack. */
+.intro-line {
+  max-width: 380px;
+  margin: var(--space-lg) 0 0;   /* flush left, level with the photo grid */
+  font-size: clamp(16px, 1.52vw, 18px);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--muted);
+  text-align: left;
+}
+.intro-line + .bio { margin-top: 0; }
+
+.inline-icon { display: inline-block; vertical-align: middle; }
+
+/* Sized in em and nudged onto the baseline rather than given fixed pixels, so
+   it tracks the copy's size and sits optically on the line instead of riding
+   high the way `vertical-align: middle` leaves it. */
+.flag-ie {
+  width: auto;
+  height: .85em;
+  vertical-align: -0.06em;
+}
+/* Shared hover pill (helm, flag). Same dark treatment as the quick-menu dropdown, so
+   the two read as one family; deliberately dark in both themes rather than
+   following the palette. Fades with opacity only, never `visibility`, so the
+   name stays in the accessibility tree and is read out even though it is
+   visually hidden. */
+.tip { position: relative; display: inline-block; }
+
+/* Only the two inline-in-a-sentence icons need breathing room before them; the
+   stack icons are grid cells and must not inherit it. */
+.tip:has(.helm)    { margin-left: .3em;  }
+.tip:has(.flag-ie) { margin-left: .18em; }
+
+.tip__label {
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  padding: 3px 10px;
+  background: #191919;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .22),
+              0 0 0 1px rgba(255, 255, 255, .06);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: #f2f2f0;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 5px) scale(.94);
+  transition: opacity .16s ease,
+              transform .22s cubic-bezier(.34, 1.32, .5, 1);
+}
+
+.tip:hover .tip__label {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+/* On a phone the bio column runs nearly the full width, so a pill centred on an
+   icon near the end of a line overhangs the right edge and widens the document.
+   Anchoring it to the icon's right edge makes it open leftward instead. */
+@media (max-width: 560px) {
+  .tip__label {
+    left: auto;
+    right: 0;
+    transform: translate(0, 5px) scale(.94);
+    transform-origin: bottom right;
+  }
+  .tip:hover .tip__label { transform: translate(0, 0) scale(1); }
+}
+
+/* Sized in em and baseline-nudged like .heart, so it sits in the line rather
+   than riding on it. alt="" — the sentence already says "as an ironman". */
+.helm {
+  width: auto;
+  height: 1.15em;
+  vertical-align: -0.22em;
+}
+
+.heart {
+  width: 1.05em;
+  height: 1.05em;
+  margin: 0 .12em;
+  vertical-align: -0.17em;
+  color: var(--heart);
+}
+
+/* --------------------------------------------------------------------------
+   6b. About — the design statement
+
+   A wider column than the bio blocks: this is prose meant to be read, not a
+   stack of short lines, so it gets a comfortable measure and paragraph gaps.
+   -------------------------------------------------------------------------- */
+/* Same column and type treatment as .bio, so this reads as part of the About
+   copy rather than a display headline dropped into the middle of it. */
+/* The section keeps the full .shell width so its left padding lines up with
+   every other band on the page; the 380px measure is applied to the children
+   instead, flush left. Capping the section itself would have centred the whole
+   block and left it out of step with the copy above. */
+.essay {
+  margin-top: var(--space-xl);
+  font-size: clamp(16px, 1.52vw, 18px);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  color: var(--text-strong);
+}
+
+/* Small grey lead-in, same treatment as the "I'm Dylan Sullivan," line.
+   Selector carries .essay p so it out-weighs the `.essay p` colour rule below
+   — otherwise the paragraph styling would win and it would render black. */
+.essay > * { max-width: 380px; }
+
+.essay p.essay__kicker {
+  margin: 0;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* Set apart from the paragraphs by weight alone, not by size. */
+.essay__title {
+  margin-bottom: 1.3em;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+}
+
+/* The paragraph below says design starts from "a blank canvas, black and
+   white" and that imagination is what is missing from it. So the word itself
+   is black-and-white at rest, and hovering floods it with colour — the effect
+   demonstrates the sentence rather than decorating it.
+
+   The gradient is always painted and clipped to the glyphs; the text colour
+   sits on top of it and hides it. Fading that colour to transparent is what
+   lets the colour through, and unlike swapping background-image it is a
+   genuinely animatable property. */
+.essay__soft {
+  display: inline-block;
+
+  background-image: linear-gradient(
+      100deg,
+      #ff7700, #e8505b, #a855f7, #1759f9, #16b97a, #ff7700);
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+          background-clip: text;
+
+  transition: color .34s ease, -webkit-text-fill-color .34s ease;
+}
+
+.essay__soft:hover {
+  color: transparent;
+  -webkit-text-fill-color: transparent;   /* Safari needs this one specifically */
+  animation: imagine-sweep 3.4s linear infinite;
+}
+
+/* First and last stops are the same colour, so one full tile of travel loops
+   without a visible seam. */
+@keyframes imagine-sweep {
+  from { background-position:   0% 50%; }
+  to   { background-position: 220% 50%; }
+}
+
+.essay p {
+  font-weight: 400;
+  color: inherit;
+}
+.essay p + p { margin-top: 1.15em; }
+
+/* --------------------------------------------------------------------------
+   7. About — polaroid photo rows
+   -------------------------------------------------------------------------- */
+/* Deliberately smaller than the --space-lg above the text blocks: the copy
+   belongs to the row beneath it, so it sits close to it, while the next text
+   block further down keeps its wide separation. */
+.photo-row { margin-top: var(--space-md); }
+
+.photo-row__captions {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 20px;
+  font-size: clamp(14px, 1.3vw, 16px);
+  color: var(--muted);
+}
+.photo-row__captions p:last-child  { text-align: right; }
+.photo-row__captions p:only-child  { text-align: left;  }
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+.photo-grid--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Polaroid: white mount, photo inset at the top, caption written on the chin.
+   The chin is sized by the caption's own line-height, so it keeps its depth
+   whether or not a caption has been filled in yet. */
+.frame {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 0;
+  background: var(--surface);
+  border-radius: 2px;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, .10),
+              0 1px 3px  rgba(0, 0, 0, .07);
+}
+
+.photo {
+  aspect-ratio: 198 / 217;
+  background: var(--placeholder);
+  overflow: hidden;
+}
+
+/* Hover tilt ------------------------------------------------------------
+   Every print leans the same way, quickly, with no change to the shadow.
+
+   The selector carries .js deliberately: `.js .reveal--pop` also sets
+   transform and transition-* on these, and at lower specificity it would
+   otherwise lend the hover its slow, overshooting reveal timing. */
+.frame {
+  position: relative;                /* so the lifted one sits above its neighbours */
+  transition: transform .14s ease-out;
+}
+
+.js .frame:hover,
+.frame:hover {
+  z-index: 1;
+  transform: rotate(2.2deg);
+  transition-duration: .14s;
+  transition-timing-function: ease-out;
+  transition-delay: 0s;              /* never inherit the reveal's stagger */
+}
+
+.frame__caption {
+  min-height: 1.2em;                 /* holds the chin open while empty */
+  padding: 11px 2px 13px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--muted);
+}
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* --------------------------------------------------------------------------
+   8. About — tech stack icons flanking the middle photo row
+
+   The icons are exported from Figma with their rotation baked into the path
+   data, so they must NOT be rotated again here. The two box sizes are the
+   rotated bounding boxes straight from the frame: 61px and 54px.
+   -------------------------------------------------------------------------- */
+/* Two cells wide, so it closes the row the polaroids leave open. */
+.frame--tools { grid-column: span 2; }
+
+/* The panel stands in for the photo. It takes no height of its own: the grid
+   stretches every card in the row to the tallest, and flex:1 lets the panel
+   absorb whatever is left once the chin below has taken its share -- so the
+   icons sit in exactly the depth a print does, with no number to keep in sync
+   if the polaroids ever resize. Three across and two down, each icon centred
+   in its own cell so the six space themselves evenly across the width. */
+.stack {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  place-items: center;
+  gap: clamp(8px, 1.4vw, 18px);
+  padding: clamp(14px, 2.2vw, 26px);
+  background: var(--nav-bg);
+}
+
+.stack__item {
+  width: var(--box);
+  height: var(--box);
+  flex: none;
+}
+.stack__item svg { width: 100%; height: 100%; display: block; }
+
+/* Each icon's tilt is baked into its exported path data, so straightening them
+   means applying the inverse rotation rather than deleting a CSS one. Angles
+   are the negatives of what Figma exported: -30 / +15 / -30 / +15 / -15 / +30. */
+.stack__item--html   svg { transform: rotate(30deg);  }
+.stack__item--js     svg { transform: rotate(-15deg); }
+.stack__item--python svg { transform: rotate(30deg);  }
+.stack__item--figma  svg { transform: rotate(-15deg); }
+.stack__item--vscode svg { transform: rotate(15deg);  }
+.stack__item--css    svg { transform: rotate(-30deg); }
+
+.stack__item--html,
+.stack__item--python,
+.stack__item--css    { --box: clamp(44px, 6.1vw, 78px); }
+
+.stack__item--js,
+.stack__item--figma,
+.stack__item--vscode { --box: clamp(39px, 5.4vw, 69px); }
+
+/* The frame nudges each cluster off-axis; kept so it stays hand-scattered.
+   These MUST NOT use transform: the scroll-reveal animates transform on the
+   same elements, so the two overwrite each other — the nudge vanished during
+   the reveal and snapped back when the reveal classes were cleaned up, which
+   read as the icons shifting on their own. margin is a layout offset nothing
+   else touches. */
+
+
+/* --------------------------------------------------------------------------
+   8b. Contact — the closing card
+
+   The same pale blue and accent ink as the hero name pill, so the page opens
+   and closes on the one colour. Its width is the bio measure, not the shell,
+   so the line reads at the same length as every other block of copy.
+   -------------------------------------------------------------------------- */
+.contact { margin-top: var(--space-xl); }
+
+.contact__card {
+  max-width: 520px;
+  padding: clamp(20px, 2.6vw, 30px);
+  background: var(--accent-soft);
+  border-radius: 18px;
+}
+
+.contact__card p {
+  font-size: clamp(15px, 1.45vw, 17px);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  color: var(--accent);
+}
+/* Paragraph gaps here, unlike .bio, which deliberately runs its sentences
+   together — these three are separate beats leading to the button. */
+.contact__card p + p        { margin-top: 1.1em; }
+.contact__card p:last-of-type { margin-bottom: 20px; }
+
+/* The page's one solid button, sharing the plus button's ink so it inverts
+   with the theme rather than staying black on a dark ground. */
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px 9px 13px;
+  background: var(--btn-bg);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--btn-fg);
+  transition: opacity .16s ease, transform .16s ease;
+}
+.copy-btn:hover        { opacity: .86; }
+.copy-btn:active       { transform: scale(.97); }
+.copy-btn svg          { width: 15px; height: 15px; flex: none; display: block; }
+.copy-btn__label       { white-space: nowrap; }
+
+/* Confirmation swaps the tick in for the copy mark. Both glyphs sit in the
+   same 15px box, so the pill's width barely moves as the label changes.
+   These carry .copy-btn deliberately: `.copy-btn svg` above is a class plus a
+   type, which outranks a lone class, and would otherwise force both glyphs
+   back to display:block and show the tick permanently. */
+.copy-btn .copy-btn__done           { display: none; }
+.copy-btn.is-copied .copy-btn__copy { display: none; }
+.copy-btn.is-copied .copy-btn__done { display: block; }
+
+/* Carries the announcement for screen readers only — the visible confirmation
+   is the label swap above, so this must take no space and draw nothing. */
+.copy-btn__status {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   9. Footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  margin-top: var(--space-xl);
+  padding-bottom: var(--space-md);
+}
+
+/* Copy on the left, icons on the right, sharing one line. */
+.site-footer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;   /* narrow phones: the icons drop under the copy line */
+  gap: 12px 16px;
+}
+
+.footer__copy {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.footer__icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Same grey as the copyright line beside them, so the two read as one row. */
+.footer__icon {
+  position: relative;
+  width: 26px; height: 26px;
+  color: var(--muted);
+  transition: color .2s ease;
+}
+/* Same trick as .moon-btn: the mark stays 26px, the target grows to ~44px
+   without touching the row's spacing. */
+.footer__icon::after {
+  content: '';
+  position: absolute;
+  inset: -9px;
+}
+/* Darken rather than fade: from grey, fading out reads as disabled. */
+.footer__icon:hover,
+.footer__icon:focus-visible { color: var(--ink); }
+.footer__icon svg { width: 100%; height: 100%; display: block; fill: currentColor; }
+
+/* --------------------------------------------------------------------------
+   10. Breakpoints
+   -------------------------------------------------------------------------- */
+
+/* Tablet — projects still fit two up; the photo wall drops to two columns. */
+@media (max-width: 900px) {
+  .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Phone — one project per row, and the badge is pulled back over the avatar
+   so it can't push the page sideways. */
+@media (max-width: 700px) {
+  .projects { grid-template-columns: minmax(0, 1fr); }
+  .project__desc { max-width: 46ch; }
+
+  .hero__figure { margin-bottom: var(--space-lg); }
+
+  /* The strip runs to both screen edges, so a pill scrolling out of view
+     passes under the page margin instead of stopping short of it. The inline
+     padding puts the first pill back on the content line. */
+  .filters {
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+  }
+}
+
+/* Phone — the header stays one line, with the dock still centred on it.
+
+   Three things want that line and the name is what gives: the portrait alone
+   identifies the page here, and dropping it frees the ~115px that the dock
+   and the controls need to sit either side of centre. The dock and controls
+   then tighten a little more so the row still clears a 320px screen. */
+@media (max-width: 600px) {
+  .ident__name    { display: none; }
+  .ident          { margin-inline-start: 0; }
+  .header-actions { gap: 12px; }
+}
+
+/* Small phone — the cursor and name pill drop below the portrait.
+
+   On wider screens the pill overhangs to the right, and the whole hero unit
+   slides left by the overhang to keep it on screen. That works, but it pulls
+   the portrait off centre just when the page is narrowest. Below this width
+   the arrangement is restacked instead: the portrait sits dead centre and is
+   never moved, the pill is centred underneath it, and the cursor sits between
+   the two, still angled up into the portrait it belongs to. */
+@media (max-width: 480px) {
+  .hero__figure {
+    left: 0;                 /* cancels the overhang slide */
+    /* The pill is absolutely positioned, so it adds nothing to the figure's
+       height -- the room it needs below has to come from this margin. */
+    margin-bottom: calc(var(--space-lg) + 48px);
+  }
+
+  /* The pair keeps the diagonal it has on desktop, just moved under the
+     portrait: cursor up and to the left, pill down and to the right of it.
+     The 21/22px step between them is lifted straight off the desktop
+     arrangement — there the pill's top-left corner tucks under the cursor's
+     tail rather than clearing it, and that overlap is what makes the two read
+     as one object instead of two. Both are measured from the figure's centre,
+     so the whole thing travels with the portrait as the avatar resizes. */
+  .cursor {
+    left: calc(50% - 30px);
+    top: calc(100% + 10px);
+  }
+
+  .badge {
+    left: calc(50% - 9px);
+    top: calc(100% + 32px);
+    transform: none;
+  }
+
+  .photo-row__captions { flex-direction: column; gap: 4px; }
+  .photo-row__captions p:last-child { text-align: left; }
+  .photo-grid { gap: 16px; }
+  .frame { padding: 7px 7px 0; }
+  .frame__caption { padding: 8px 2px 10px; font-size: 11px; }
+}
+
+/* --------------------------------------------------------------------------
+   11. Accessibility
+   -------------------------------------------------------------------------- */
+:where(a, button):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* NOTE: there used to be a `@media (prefers-reduced-motion: reduce)` block here
+   that killed every transition and animation site-wide. Windows reports
+   "reduce" whenever Animation effects is switched off in Accessibility →
+   Visual effects, which is the case on this machine — so it was silently
+   disabling the headline bounce and the nav/filter transitions. Removed on
+   request. If you ever want it back, scope it to specific rules rather than
+   `*`, so one OS toggle can't blank out the whole site's motion. */
+
+
+/* --------------------------------------------------------------------------
+   12. Concept viewer
+
+   A full-screen reader for concept projects: the slides on the right, every
+   other concept on a rail down the left so you can move between them without
+   closing. Dark in both themes — it is a lightbox, not part of the page.
+   -------------------------------------------------------------------------- */
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  background: #0c0c0c;
+  color: #f2f2f0;
+}
+.viewer[hidden] { display: none; }
+
+/* Fades and lifts in; .is-open is added a frame after unhiding so the
+   transition has a starting state to move from. */
+.viewer {
+  opacity: 0;
+  transition: opacity .22s ease;
+}
+.viewer.is-open { opacity: 1; }
+
+/* Rail ------------------------------------------------------------------- */
+.viewer__rail {
+  flex: none;
+  width: 76px;
+  padding: 14px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  overflow-y: auto;
+  background: #f5f5f3;
+}
+
+.viewer__railitem {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ddd;
+  box-shadow: 0 0 0 2px transparent;
+  transition: box-shadow .16s ease, transform .16s ease;
+  cursor: pointer;
+}
+.viewer__railitem img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.viewer__railitem:hover { transform: scale(1.05); }
+.viewer__railitem[aria-current="true"] { box-shadow: 0 0 0 2px #1759f9; }
+
+/* Body ------------------------------------------------------------------- */
+.viewer__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px 20px;
+}
+
+.viewer__head { flex: none; padding-right: 130px; }   /* clear of the close button */
+
+.viewer__headline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.viewer__title {
+  font-size: clamp(17px, 1.8vw, 21px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.viewer__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.viewer__tag {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  font-size: 12px;
+  font-weight: 500;
+  color: #e6e6e4;
+  white-space: nowrap;
+}
+
+.viewer__desc {
+  margin-top: 6px;
+  max-width: 70ch;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #a8a8a5;
+}
+
+/* Stage ------------------------------------------------------------------ */
+.viewer__stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* height:100% rather than max-height — a percentage max-height resolves against
+   the parent's height, and with an auto-height parent it is simply ignored.
+   That let tall slides (the phone screens) overflow the stage and get clipped.
+   Giving the frame a definite height makes the image's own max-height work. */
+.viewer__frame {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+}
+
+.viewer__slide {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
+
+/* Shown only while a concept has no slides yet. */
+.viewer__empty {
+  display: none;
+  padding: 70px 40px;
+  font-size: 14px;
+  color: #8c8c8a;
+}
+.viewer.is-empty .viewer__slide { display: none; }
+.viewer.is-empty .viewer__empty { display: block; }
+.viewer.is-empty .viewer__arrow,
+.viewer.is-empty .viewer__dots { display: none; }
+
+/* Controls --------------------------------------------------------------- */
+.viewer__arrow,
+.viewer__close {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  /* White discs with dark marks. The shadow is what keeps them readable when a
+     slide runs wide enough to sit underneath them -- on the dark ground alone
+     they would not need it. */
+  background: #f5f5f3;
+  color: #16120f;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .35);
+  transition: background .16s ease;
+}
+.viewer__arrow:hover,
+.viewer__close:hover { background: #ffffff; }
+.viewer__arrow svg,
+.viewer__close svg { width: 15px; height: 15px; }
+
+.viewer__arrow--prev { left: 6px;  top: 50%; transform: translateY(-50%); }
+.viewer__arrow--next { right: 6px; top: 50%; transform: translateY(-50%); }
+
+.viewer__close {
+  top: 16px;
+  right: 18px;
+}
+
+/* Dots ------------------------------------------------------------------- */
+.viewer__dots {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  padding-top: 14px;
+}
+
+.viewer__dot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .28);
+  transition: background .16s ease, transform .16s ease;
+  cursor: pointer;
+}
+.viewer__dot[aria-current="true"] { background: #f2f2f0; transform: scale(1.15); }
+/* A 7px dot is not a thumb target; the reachable area is widened around it. */
+.viewer__dot::after {
+  content: '';
+  position: absolute;
+  inset: -12px -6px;
+}
+
+/* Phones: the rail lies along the bottom, where a thumb can reach it. */
+@media (max-width: 640px) {
+  .viewer { flex-direction: column-reverse; }
+  .viewer__rail {
+    width: auto;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .viewer__railitem { width: 40px; height: 40px; }
+  .viewer__body { padding: 14px 14px 16px; }
+  .viewer__head { padding-right: 56px; }
+  .viewer__close { top: 12px; right: 12px; width: 34px; height: 34px; }
+}
